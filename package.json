@@ -1,0 +1,33 @@
+{
+  "name": "media-mixin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "media.scss",
+  "scripts": {
+    "build": "sass --sourcemap=none test.scss test.css",
+    "test": "npm run build",
+    "precommit": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infinum/media-mixin.git"
+  },
+  "keywords": [
+    "scss",
+    "mixin",
+    "media",
+    "mobile",
+    "desktop",
+    "tablet"
+  ],
+  "author": "Infinum <javascript.team@infinum.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/infinum/media-mixin/issues"
+  },
+  "homepage": "https://github.com/infinum/media-mixin#readme",
+  "devDependencies": {
+    "husky": "^0.11.9",
+    "node-sass": "^3.10.1"
+  }
+}

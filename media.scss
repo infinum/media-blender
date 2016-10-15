@@ -1,0 +1,155 @@
+// stylelint-disable no-unsupported-browser-features
+// For some reason, stylelint is showing
+// unsupported browser IE 10 for "rem" feature that's not used here
+
+//breakpoints have to be defined such as this, with both end of one and start
+//of next the same value, it will be calculated correctly in output.
+//first breakpoint has to start from 0
+//last breakpoint should only have one value if the other is infinity
+
+//USAGE:
+// @include media(mobile tablet desktop) {
+//   properties...
+// }
+//OUTPUT:
+//@media (max-width: 1199px) {
+//  properties...
+//}
+
+// @include media(mobile large) {
+//   properties...
+// }
+//OUTPUT:
+//@media (max-width: 767px) and (min-width: 1200px) {
+//  properties...
+//}
+
+$media-breakpoints: (
+  mobile: 0 767,
+  tablet: 768 1023,
+  desktop: 1024 1279,
+  large: 1280
+);
+
+@function __media-remove-element($list, $value) {
+  $result: ();
+
+  @for $i from 1 through length($list) {
+    @if nth($list, $i) != $value {
+      $result: append($result, nth($list, $i));
+    }
+  }
+
+  @return $result;
+}
+
+@function __media-remove-duplicates($list) {
+  $result: ();
+  $i: 0;
+
+  //remove all duplicates (both of them)
+  @each $item-first in $list {
+    $i: $i + 1;
+    $should-add: true;
+    $index: $i;
+    $j: 0;
+
+    @each $item-second in $list {
+      $j: $j + 1;
+
+      @if $item-first == $item-second and not ($j == $index) {
+        $should-add: false;
+      }
+    }
+
+    @if $should-add == true {
+      $result: append($result, $item-first);
+    }
+  }
+
+  @return $result;
+}
+
+@function __media-join-queries($queries) {
+  //start list with 0, so it can be removed with
+  //duplicates/or used to determine min or max start
+  $list: (0);
+
+  //join list of breakpoints based on queries
+  @each $q in $queries {
+    @each $key, $val in $media-breakpoints {
+      @if $q == $key {
+        @if length($val) == 1 {
+          $list: join($list, $val);
+        } @else {
+          $list: join($list, (nth($val, 1), nth($val, 2) + 1));
+        }
+      }
+    }
+  }
+
+  $list: __media-remove-duplicates($list);
+
+  @return $list;
+}
+
+@function __media-get-query($list, $flag: false) {
+  //list of strings to concatenate
+  $strings: ();
+
+  //for each item in list, go back and forth between min width and max width
+  @each $item in $list {
+    @if $flag == true {
+      $strings: append($strings, '(min-width: #{$item}px)');
+      $flag: false;
+    }
+
+    @else {
+      $val: $item - 1;
+      $strings: append($strings, '(max-width: #{$val}px)');
+      $flag: true;
+    }
+  }
+
+  //concatenate the generated strings with and
+  $result: '';
+
+  @each $str in $strings {
+    $result: $result + $str + ' and ';
+  }
+
+  //removing _and_ from string
+  $result: str-slice($result, 0, str-length($result) - 5);
+
+  //unqoute for usage withing query block - check out sass strings as for why
+  $result: unquote($result);
+
+  @return $result;
+}
+
+@mixin media($queries) {
+  //generate joined breakpoint list without duplicates
+  $breakpoint-list: __media-join-queries($queries);
+  $skip-first-max: false;
+
+  //if the 0 survived, it means we must start with max to get correct results
+  //also remove the 0, makes no sense to use it in media queries
+  @if index($breakpoint-list, 0) {
+    $skip-first-max: true;
+    $breakpoint-list: __media-remove-element($breakpoint-list, 0);
+  }
+
+  //get the query string from breakpoint-list
+  $query: __media-get-query($breakpoint-list, $skip-first-max);
+
+  //if the query is empty it means all items in list
+  //were duplicates, meaning all were selected
+  @if $query == '' {
+    $query: all;
+  }
+
+  //actual media query - @content is were user content goes
+  @media #{$query} {
+    @content;
+  }
+}

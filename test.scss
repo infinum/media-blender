@@ -1,0 +1,26 @@
+@import 'media';
+
+$media-breakpoints: (
+  small: 0 320,
+  medium: 321 480,
+  large: 481 768,
+  extra-large: 769
+);
+
+@include media(small) {
+  body {
+    color: red;
+  }
+}
+
+@include media(medium large) {
+  body {
+    color: green;
+  }
+}
+
+@include media(extra-large) {
+  body {
+    color: blue;
+  }
+}
