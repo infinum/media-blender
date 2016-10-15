@@ -38,3 +38,5 @@ jspm_packages
 
 test.css
 test.css.map
+
+.sass-cache
