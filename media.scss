@@ -2,28 +2,6 @@
 // For some reason, stylelint is showing
 // unsupported browser IE 10 for "rem" feature that's not used here
 
-//breakpoints have to be defined such as this, with both end of one and start
-//of next the same value, it will be calculated correctly in output.
-//first breakpoint has to start from 0
-//last breakpoint should only have one value if the other is infinity
-
-//USAGE:
-// @include media(mobile tablet desktop) {
-//   properties...
-// }
-//OUTPUT:
-//@media (max-width: 1199px) {
-//  properties...
-//}
-
-// @include media(mobile large) {
-//   properties...
-// }
-//OUTPUT:
-//@media (max-width: 767px) and (min-width: 1200px) {
-//  properties...
-//}
-
 $media-breakpoints: (
   mobile: 0 767,
   tablet: 768 1023,
@@ -31,7 +9,7 @@ $media-breakpoints: (
   large: 1280
 );
 
-@function __media-remove-element($list, $value) {
+@function __media-mixin-remove-element($list, $value) {
   $result: ();
 
   @for $i from 1 through length($list) {
@@ -43,7 +21,7 @@ $media-breakpoints: (
   @return $result;
 }
 
-@function __media-remove-duplicates($list) {
+@function __media-mixin-remove-duplicates($list) {
   $result: ();
   $i: 0;
 
@@ -70,7 +48,7 @@ $media-breakpoints: (
   @return $result;
 }
 
-@function __media-join-queries($queries) {
+@function __media-mixin-join-queries($queries) {
   //start list with 0, so it can be removed with
   //duplicates/or used to determine min or max start
   $list: (0);
@@ -88,12 +66,12 @@ $media-breakpoints: (
     }
   }
 
-  $list: __media-remove-duplicates($list);
+  $list: __media-mixin-remove-duplicates($list);
 
   @return $list;
 }
 
-@function __media-get-query($list, $flag: false) {
+@function __media-mixin-get-query($list, $flag: false) {
   //list of strings to concatenate
   $strings: ();
 
@@ -129,18 +107,18 @@ $media-breakpoints: (
 
 @mixin media($queries) {
   //generate joined breakpoint list without duplicates
-  $breakpoint-list: __media-join-queries($queries);
+  $breakpoint-list: __media-mixin-join-queries($queries);
   $skip-first-max: false;
 
   //if the 0 survived, it means we must start with max to get correct results
   //also remove the 0, makes no sense to use it in media queries
   @if index($breakpoint-list, 0) {
     $skip-first-max: true;
-    $breakpoint-list: __media-remove-element($breakpoint-list, 0);
+    $breakpoint-list: __media-mixin-remove-element($breakpoint-list, 0);
   }
 
   //get the query string from breakpoint-list
-  $query: __media-get-query($breakpoint-list, $skip-first-max);
+  $query: __media-mixin-get-query($breakpoint-list, $skip-first-max);
 
   //if the query is empty it means all items in list
   //were duplicates, meaning all were selected
