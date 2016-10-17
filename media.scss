@@ -170,7 +170,38 @@ $media-breakpoints: (
   @return __media-mixin-join-list($strings, ' and ');
 }
 
+@function __add-retina($queries) {
+  $retina-queries: ();
+
+  @each $query in $queries {
+    $webkit-query: unquote($query + ' and (-webkit-min-device-pixel-ratio: 2)');
+    $dpi-query: unquote($query + ' and (min-resolution: 192dpi)');
+
+    $retina-queries: append($retina-queries, $webkit-query);
+    $retina-queries: append($retina-queries, $dpi-query);
+  }
+
+  @return $retina-queries;
+}
+
+@function __remove-nth($list, $index) {
+  $result: ();
+
+  @for $i from 1 through length($list) {
+    @if $i != $index {
+      $result: append($result, nth($list, $i));
+    }
+  }
+
+  @return $result;
+}
+
 @mixin media($queries) {
+  $retina-index: index($queries, retina);
+
+  @if $retina-index {
+    $queries: __remove-nth($queries, $retina-index);
+  }
   //sort the queries for correct or-list (comma-separated) generation, and remove duplicates
   $queries: __media-mixin-sort-queries($queries);
   $queries: __media-mixin-remove-duplicate-queries($queries);
@@ -188,7 +219,6 @@ $media-breakpoints: (
       $query: __media-mixin-remove-element($query, 0);
     }
 
-
     //get the query string from breakpoint-list
     $query: __media-mixin-get-query($query, $skip-first-max);
 
@@ -202,6 +232,11 @@ $media-breakpoints: (
   }
 
   $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
+
+  //If retina was found in the query list
+  @if $retina-index {
+    $breakpoint-lists: __add-retina($breakpoint-lists);
+  }
 
   //actual media query - @content is were user content goes
   @media #{$breakpoint-lists} {
