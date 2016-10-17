@@ -27,9 +27,6 @@
   },
   "homepage": "https://github.com/infinum/media-mixin#readme",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-mocha": "^1.0.2",
-    "grunt-mocha-cli": "^2.1.0",
     "husky": "^0.11.9",
     "mocha": "^3.1.2",
     "mocha-cli": "^1.0.1",
