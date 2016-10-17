@@ -36,3 +36,9 @@ $media-breakpoints: (
     color: purple;
   }
 }
+
+@include media(retina) {
+  body {
+    color: pink;
+  }
+}

@@ -184,6 +184,14 @@ $media-breakpoints: (
   @return $retina-queries;
 }
 
+@function __merge-or-replace-all($query, $string) {
+  @if ($query == all) {
+    @return $string;
+  }
+
+  @return $query + ' and ' + $string;
+}
+
 @function __remove-nth($list, $index) {
   $result: ();
 
@@ -231,12 +239,13 @@ $media-breakpoints: (
     $breakpoint-lists: append($breakpoint-lists, $query);
   }
 
-  $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
-
   //If retina was found in the query list
   @if $retina-index {
     $breakpoint-lists: __add-retina($breakpoint-lists);
   }
+
+  $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
+
 
   //actual media query - @content is were user content goes
   @media #{$breakpoint-lists} {
