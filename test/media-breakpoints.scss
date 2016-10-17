@@ -1,0 +1,115 @@
+@import 'true';
+@import '../media';
+
+@include test-module('media-mixin') {
+
+  @include test('outputs correctly for mobile') {
+    @include assert('outputs the correct breakpoints for mobile') {
+      @include output {
+        @include media(mobile) {
+          color: red;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) {
+          color: red;
+        }
+      }
+    }
+  }
+
+  @include test('outputs correctly for tablet') {
+    @include assert('outputs the correct breakpoints for tablet') {
+      @include output {
+        @include media(tablet) {
+          color: blue;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 768px) and (max-width: 1023px) {
+          color: blue;
+        }
+      }
+    }
+  }
+
+  @include test('outputs correctly for desktop') {
+    @include assert('outputs the correct breakpoints for desktop') {
+      @include output {
+        @include media(desktop) {
+          color: white;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 1024px) and (max-width: 1279px) {
+          color: white;
+        }
+      }
+    }
+  }
+
+  @include test('outputs correctly for large') {
+    @include assert('outputs the correct breakpoints for large') {
+      @include output {
+        @include media(large) {
+          color: black;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 1280px) {
+          color: black;
+        }
+      }
+    }
+  }
+
+  @include test('combines adjacent queries') {
+    @include assert('outputs the correct breakpoints for (tablet desktop)') {
+      @include output {
+        @include media(tablet desktop) {
+          font-size: 12px;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 768px) and (max-width: 1279px) {
+          font-size: 12px;
+        }
+      }
+    }
+
+    @include assert('outputs the correct breakpoints for (tablet desktop large)') {
+      @include output {
+        @include media(tablet desktop large) {
+          font-size: 12px;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 768px) {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  @include test('removes duplicates') {
+    @include assert('removes duplicate entries where the query introduces them') {
+      @include output {
+        @include media(mobile mobile tablet mobile) {
+          border: 1px solid black;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 1023px) {
+          border: 1px solid black;
+        }
+      }
+    }
+  }
+}
