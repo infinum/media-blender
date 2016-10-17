@@ -215,6 +215,36 @@
     }
   }
 
+  @include test('works with orientation as a second argument') {
+    @include assert('adds orientation if present') {
+      @include output {
+        @include media(mobile, landscape) {
+          visibility: hidden;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) and (orientation: landscape) {
+          visibility: hidden;
+        }
+      }
+    }
+
+    @include assert('adds only the orientation if the query would be "all"') {
+      @include output {
+        @include media(mobile tablet desktop large, landscape) {
+          visibility: hidden;
+        }
+      }
+
+      @include expect {
+        @media (orientation: landscape) {
+          visibility: hidden;
+        }
+      }
+    }
+  }
+
   @include test('up syntax') {
     @include assert('expands the query') {
       @include output {

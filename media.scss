@@ -257,7 +257,7 @@ $media-breakpoints: (
   @return $result;
 }
 
-@mixin media($queries) {
+@mixin media($queries, $orientation: null) {
   $retina-index: index($queries, retina);
 
   @if $retina-index {
@@ -266,6 +266,7 @@ $media-breakpoints: (
 
   // resolve up/down syntax for mobile-first and desktop-first
   $queries: __media-mixin-expand($queries);
+
   //sort the queries for correct or-list (comma-separated) generation, and remove duplicates
   $queries: __media-mixin-sort-queries($queries);
   $queries: __media-mixin-remove-duplicate-queries($queries);
@@ -289,7 +290,13 @@ $media-breakpoints: (
     //if the query is empty it means all items in list
     //were duplicates, meaning all were selected
     @if $query == '' {
-      $query: all;
+      @if $orientation != null {
+        $query: '(orientation: #{$orientation})';
+      } @else {
+        $query: all;
+      }
+    } @else if $orientation != null {
+      $query: '#{$query} and (orientation: #{$orientation})';
     }
 
     $breakpoint-lists: append($breakpoint-lists, $query);
