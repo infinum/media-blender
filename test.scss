@@ -30,3 +30,33 @@ $media-breakpoints: (
     color: orange;
   }
 }
+
+@include media(small up) {
+  body {
+    color: white;
+  }
+}
+
+@include media(medium up) {
+  body {
+    color: teal;
+  }
+}
+
+@include media (extra-large down) {
+  body {
+    color: cyan;
+  }
+}
+
+@include media (large down) {
+  body {
+    color: lime;
+  }
+}
+
+@include media(medium large up) {
+  body {
+    color: fuchsia;
+  }
+}
