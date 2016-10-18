@@ -9,6 +9,51 @@ $media-breakpoints: (
   large: 1280
 );
 
+@function __swap-elements($list, $i, $j) {
+  $tmp: nth($list, $i);
+  $list: set-nth($list, $i, nth($list, $j));
+  $list: set-nth($list, $j, $tmp);
+
+  @return $list;
+}
+
+// Bubble sort, efficiency questionable. Sorts queries by their breakpoint values, ascendingly
+@function __media-mixin-sort-queries($queries) {
+  $len: length($queries);
+
+  @for $i from 1 through $len {
+    @if $i < $len { // Avoid out-of-bounds errors
+      @for $j from $i + 1 through $len {
+        $left: map-get($media-breakpoints, nth($queries, $i));
+        $right: map-get($media-breakpoints, nth($queries, $j));
+
+        // If the right breakpoint's min is before the left's max
+        @if length($left) < 2 or nth($right, 1) < nth($left, 2) {
+          $queries: __swap-elements($queries, $i, $j);
+        }
+      }
+    }
+  }
+
+  @return $queries;
+}
+
+// Assumes sorted
+@function __media-mixin-remove-duplicate-queries($queries) {
+  $uniques: ();
+  $last: null;
+
+  @each $query in $queries {
+    @if $last == null or $query != $last {
+      $uniques: append($uniques, $query);
+    }
+
+    $last: $query;
+  }
+
+  @return $uniques;
+}
+
 @function __media-mixin-remove-element($list, $value) {
   $result: ();
 
@@ -51,29 +96,62 @@ $media-breakpoints: (
 @function __media-mixin-join-queries($queries) {
   //start list with 0, so it can be removed with
   //duplicates/or used to determine min or max start
+  $groups: ();
   $list: (0);
+  $last-max: 0;
 
   //join list of breakpoints based on queries
   @each $q in $queries {
     @each $key, $val in $media-breakpoints {
       @if $q == $key {
+        @if nth($val, 1) != $last-max and $last-max != 0 {
+          $groups: append($groups, __media-mixin-remove-duplicates($list));
+          $list: (0);
+          $last-max: 0;
+        }
+
         @if length($val) == 1 {
           $list: join($list, $val);
         } @else {
-          $list: join($list, (nth($val, 1), nth($val, 2) + 1));
+          $last-max: nth($val, 2) + 1;
+          $list: join($list, (nth($val, 1), $last-max));
         }
       }
     }
   }
 
-  $list: __media-mixin-remove-duplicates($list);
+  @if length($list) > 1 {
+    $groups: append($groups, __media-mixin-remove-duplicates($list));
+  }
 
-  @return $list;
+  @return $groups;
+}
+
+@function __media-mixin-join-list($list, $separator) {
+  $result: '';
+
+  // Join with separator
+  @each $str in $list {
+    $result: $result + $str + $separator;
+  }
+
+  // Remove final instance of separator
+  $result: str-slice($result, 0, str-length($result) - str-length($separator));
+
+  //unqoute for usage withing query block - check out sass strings as for why
+  $result: unquote($result);
+
+  @return $result;
 }
 
 @function __media-mixin-get-query($list, $flag: false) {
+  //list of non-adjacent query groups
+  $lists: ();
+
   //list of strings to concatenate
   $strings: ();
+
+  $last-max: 0;
 
   //for each item in list, go back and forth between min width and max width
   @each $item in $list {
@@ -89,45 +167,44 @@ $media-breakpoints: (
     }
   }
 
-  //concatenate the generated strings with and
-  $result: '';
-
-  @each $str in $strings {
-    $result: $result + $str + ' and ';
-  }
-
-  //removing _and_ from string
-  $result: str-slice($result, 0, str-length($result) - 5);
-
-  //unqoute for usage withing query block - check out sass strings as for why
-  $result: unquote($result);
-
-  @return $result;
+  @return __media-mixin-join-list($strings, ' and ');
 }
 
 @mixin media($queries) {
-  //generate joined breakpoint list without duplicates
-  $breakpoint-list: __media-mixin-join-queries($queries);
-  $skip-first-max: false;
+  //sort the queries for correct or-list (comma-separated) generation, and remove duplicates
+  $queries: __media-mixin-sort-queries($queries);
+  $queries: __media-mixin-remove-duplicate-queries($queries);
+  $query-lists: __media-mixin-join-queries($queries);
 
-  //if the 0 survived, it means we must start with max to get correct results
-  //also remove the 0, makes no sense to use it in media queries
-  @if index($breakpoint-list, 0) {
-    $skip-first-max: true;
-    $breakpoint-list: __media-mixin-remove-element($breakpoint-list, 0);
+  $breakpoint-lists: ();
+
+  @each $query in $query-lists {
+    $skip-first-max: false;
+
+    //if the 0 survived, it means we must start with max to get correct results
+    //also remove the 0, makes no sense to use it in media queries
+    @if index($query, 0) {
+      $skip-first-max: true;
+      $query: __media-mixin-remove-element($query, 0);
+    }
+
+
+    //get the query string from breakpoint-list
+    $query: __media-mixin-get-query($query, $skip-first-max);
+
+    //if the query is empty it means all items in list
+    //were duplicates, meaning all were selected
+    @if $query == '' {
+      $query: all;
+    }
+
+    $breakpoint-lists: append($breakpoint-lists, $query);
   }
 
-  //get the query string from breakpoint-list
-  $query: __media-mixin-get-query($breakpoint-list, $skip-first-max);
-
-  //if the query is empty it means all items in list
-  //were duplicates, meaning all were selected
-  @if $query == '' {
-    $query: all;
-  }
+  $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
 
   //actual media query - @content is were user content goes
-  @media #{$query} {
+  @media #{$breakpoint-lists} {
     @content;
   }
 }
