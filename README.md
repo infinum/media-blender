@@ -103,6 +103,20 @@ Compiled:
 }
 ```
 
+## Testing
+
+The mixin and its functions are unit tested using [True](https://github.com/oddbird/true).
+
+All of the tests are defined in the `test/` directory and are SCSS files themselves. To add
+your own tests, create a new `.scss` file in `test/` and add the file name to the `test_sass.js`
+file. The tests are run using [Mocha](https://mochajs.org/).
+
+### Running the tests
+
+```
+npm run test
+```
+
 ## License
 
 [MIT](LICENSE)
