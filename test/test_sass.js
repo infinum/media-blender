@@ -2,7 +2,8 @@ const path = require('path');
 const sassTrue = require('sass-true');
 
 const sassFiles = [
-  'media-breakpoints.scss'
+  'media-breakpoints.scss',
+  'custom-breakpoints.scss'
 ];
 
 sassFiles.forEach((file) => {
