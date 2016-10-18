@@ -22,4 +22,4 @@ that we can all have an easier time sorting out the improvements.
   * Write a description containing at least the following:
     * A few sentences about what the pull request contains
     * (If code) usage example
-    * Reference to an issue it solves, if any is present
+    * Reference to an issue it solves, and any other issues it might affect
