@@ -24,3 +24,9 @@ $media-breakpoints: (
     color: blue;
   }
 }
+
+@include media(small large extra-large) {
+  body {
+    color: orange;
+  }
+}
