@@ -180,7 +180,7 @@
 
     @include assert('combines retina query with breakpoint queries') {
       @include output {
-        @include media(small tablet retina) {
+        @include media(mobile tablet retina) {
           .element {
             color: red;
           }

@@ -127,7 +127,7 @@ Compiled:
 ```
 
 ```scss
-@include media(small tablet retina) {
+@include media(mobile tablet retina) {
   .element {
     color: red;
   }

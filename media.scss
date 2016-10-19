@@ -171,6 +171,13 @@ $media-breakpoints: (
 }
 
 @function __add-retina($queries) {
+  @if (length($queries) == 0) {
+    @return (
+      unquote('(-webkit-min-device-pixel-ratio: 2)'),
+      unquote('(min-resolution: 192dpi)')
+    );
+  }
+
   $retina-queries: ();
 
   @each $query in $queries {
@@ -244,8 +251,8 @@ $media-breakpoints: (
     $breakpoint-lists: __add-retina($breakpoint-lists);
   }
 
-  $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
 
+  $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
 
   //actual media query - @content is were user content goes
   @media #{$breakpoint-lists} {
