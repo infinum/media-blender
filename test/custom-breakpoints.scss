@@ -72,4 +72,36 @@ $media-breakpoints: (
       }
     }
   }
+
+  @include test('up syntax works') {
+    @include assert('up syntax expands the last keyword') {
+      @include output {
+        @include media(large up) {
+          color: gray;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 201px) {
+          color: gray;
+        }
+      }
+    }
+  }
+
+  @include test('down syntax works') {
+    @include assert('down syntax expands the last keyword') {
+      @include output {
+        @include media(large down) {
+          color: maroon;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 500px) {
+          color: maroon;
+        }
+      }
+    }
+  }
 }
