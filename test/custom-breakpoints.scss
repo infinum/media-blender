@@ -1,0 +1,59 @@
+@import 'true';
+@import '../media';
+
+$media-breakpoints: (
+  small: 0 200,
+  large: 201 500,
+  huge: 501
+);
+
+@include test-module('media-mixin') {
+
+  @include test('custom breakpoints') {
+    @include assert('produces correct output for custom breakpoint') {
+      @include output {
+        @include media(small) {
+          color: red;
+        }
+
+        @include media(large) {
+          color: white;
+        }
+
+        @include media(huge) {
+          color: blue;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 200px) {
+          color: red;
+        }
+
+        @media (min-width: 201px) and (max-width: 500px) {
+          color: white;
+        }
+
+        @media (min-width: 501px) {
+          color: blue;
+        }
+      }
+    }
+  }
+
+  @include test('combining custom breakpoints') {
+    @include assert('it combines adjacent custom breakpoints') {
+      @include output {
+        @include media(small large) {
+          color: purple;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 500px) {
+          color: purple;
+        }
+      }
+    }
+  }
+}
