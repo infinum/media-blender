@@ -303,5 +303,19 @@
         }
       }
     }
+
+    @include assert('adds orientation multiple times for disjunct breakpoints') {
+      @include output {
+        @include media(mobile desktop, landscape) {
+          display: inline-block;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) and (orientation: landscape), (min-width: 1024px) and (max-width: 1279px) and (orientation: landscape) {
+          display: inline-block;
+        }
+      }
+    }
   }
 }

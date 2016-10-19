@@ -119,4 +119,34 @@ $media-breakpoints: (
       }
     }
   }
+
+  @include test('orientation as a second argument') {
+    @include assert('it works with orientation as an optional second argument') {
+      @include output {
+        @include media(small huge, portrait) {
+          color: yellow;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 200px) and (orientation: portrait), (min-width: 501px) and (orientation: portrait) {
+          color: yellow;
+        }
+      }
+    }
+
+    @include assert('it works when all the breakpoints are listed') {
+      @include output {
+        @include media(small large huge, portrait) {
+          color: brown;
+        }
+      }
+
+      @include expect {
+        @media (orientation: portrait) {
+          color: brown;
+        }
+      }
+    }
+  }
 }
