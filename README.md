@@ -103,6 +103,47 @@ Compiled:
 }
 ```
 
+#### Retina support
+
+The mixin also supports retina screens via the `retina` query. It can be used alone,
+or in combination with other breakpoints.
+
+```scss
+@include media(retina) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```scss
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .element {
+    color: red;
+  }
+}
+```
+
+```scss
+@include media(small tablet retina) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```scss
+@media (max-width: 1023px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 1023px) and (min-resolution: 192dpi) {
+  .element {
+    color: red;
+  }
+}
+```
+
 ## Testing
 
 The mixin and its functions are unit tested using [True](https://github.com/oddbird/true).
