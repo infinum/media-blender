@@ -54,6 +54,52 @@ $media-breakpoints: (
   @return $uniques;
 }
 
+@function __media-mixin-expand-in-direction($breakpoint, $direction) {
+  $list: ();
+
+  $breakpoints-list: map-get($media-breakpoints, $breakpoint);
+  $min-point: nth($breakpoints-list, 1);
+  $max-point: if(length($breakpoints-list) >= 2, nth($breakpoints-list, 2), null);
+
+  @each $key, $value in $media-breakpoints {
+    @if $direction == up {
+      @if $max-point and $key != $breakpoint and nth($value, 1) >= $max-point {
+        $list: append($list, $key);
+      }
+    } @else if $direction == down {
+      @if $min-point and $key != $breakpoint and length($value) >= 2 and nth($value, 2) <= $min-point {
+        $list: append($list, $key);
+      }
+    } @else {
+      @error 'Invalid expansion direction #{$direction}';
+    }
+  }
+
+  @return $list;
+}
+
+@function __media-mixin-expand($query) {
+  $latest: null;
+  $expanded-query: ();
+
+  @each $breakpoint in $query {
+    @if $breakpoint == up or $breakpoint == down {
+      @if $latest {
+        // Merged with existing list, allowing for queries such as "small large up"
+        $expanded-query: join($expanded-query, __media-mixin-expand-in-direction($latest, $breakpoint));
+        $latest: null;
+      } @else {
+        @error 'Cannot use up and down without a preceding breakpoint';
+      }
+    } @else {
+      $expanded-query: append($expanded-query, $breakpoint);
+      $latest: $breakpoint;
+    }
+  }
+
+  @return $expanded-query;
+}
+
 @function __media-mixin-remove-element($list, $value) {
   $result: ();
 
@@ -171,6 +217,8 @@ $media-breakpoints: (
 }
 
 @mixin media($queries) {
+  // resolve up/down syntax for mobile-first and desktop-first
+  $queries: __media-mixin-expand($queries);
   //sort the queries for correct or-list (comma-separated) generation, and remove duplicates
   $queries: __media-mixin-sort-queries($queries);
   $queries: __media-mixin-remove-duplicate-queries($queries);

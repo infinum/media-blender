@@ -158,4 +158,64 @@
       }
     }
   }
+
+  @include test('up syntax') {
+    @include assert('expands the query') {
+      @include output {
+        @include media(desktop up) {
+          transform: scale(2);
+        }
+      }
+
+      @include expect {
+        @media (min-width: 1024px) {
+          transform: scale(2);
+        }
+      }
+    }
+
+    @include assert('works for disjunct queries') {
+      @include output {
+        @include media(mobile desktop up) {
+          transform: scale(2);
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px), (min-width: 1024px) {
+          transform: scale(2);
+        }
+      }
+    }
+  }
+
+  @include test('down syntax') {
+    @include assert('expands the query') {
+      @include output {
+        @include media(tablet down) {
+          transform: translateX(2px);
+        }
+      }
+
+      @include expect {
+        @media (max-width: 1023px) {
+          transform: translateX(2px);
+        }
+      }
+    }
+
+    @include assert('works for disjunct queries') {
+      @include output {
+        @include media(tablet down large) {
+          transform: translateX(2px);
+        }
+      }
+
+      @include expect {
+        @media (max-width: 1023px), (min-width: 1280px) {
+          transform: translateX(2px);
+        }
+      }
+    }
+  }
 }
