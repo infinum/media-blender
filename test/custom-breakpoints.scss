@@ -56,4 +56,20 @@ $media-breakpoints: (
       }
     }
   }
+
+  @include test('disjunct custom breakpoints') {
+    @include assert('it combines spacially disjunct custom breakpoints') {
+      @include output {
+        @include media(small huge) {
+          color: orange;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 200px), (min-width: 501px) {
+          color: orange;
+        }
+      }
+    }
+  }
 }

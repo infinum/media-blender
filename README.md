@@ -96,7 +96,7 @@ Compiled:
 
 Compiled:
 ```css
-@media (max-width: 767px) and (min-width: 1280px) {
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 1280px) {
   .element {
     color: red;
   }
