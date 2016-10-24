@@ -195,6 +195,24 @@
         }
       }
     }
+
+    @include assert('works with disjunct queries') {
+      @include output {
+        @include media(mobile large retina) {
+          .element {
+            color: red;
+          }
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 767px) and (min-resolution: 192dpi), (min-width: 1280px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 1280px) and (min-resolution: 192dpi) {
+          .element {
+            color: red;
+          }
+        }
+      }
+    }
   }
 
   @include test('up syntax') {
