@@ -118,7 +118,7 @@ or in combination with other breakpoints.
 
 Compiled:
 
-```scss
+```css
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .element {
     color: red;
@@ -136,8 +136,52 @@ Compiled:
 
 Compiled:
 
-```scss
+```css
 @media (max-width: 1023px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 1023px) and (min-resolution: 192dpi) {
+  .element {
+    .color: red;
+  }
+}
+```
+#### Desktop-first and mobile-first support
+
+We make writing mobile-first or desktop-first oriented media queries easier than ever
+by introducing the `up` and `down` keywords. You can now say `tablet up`, and this will
+target tablets, and all other devices with a screen of at least that size. The reverse
+goes for `tablet down`. This will include all devices with a screen size no larger than
+that defined for the tablet upper breakpoint. This also works for your custom breakpoints,
+if you define them. It relies on the breakpoints, not their order of definition in the map.
+
+```scss
+@include media (tablet down) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```css
+@media (max-width: 1023px) {
+  .element {
+    color: red;
+  }
+}
+```
+
+```scss
+@include media (tablet up) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```css
+@media (min-width: 768px) {
   .element {
     color: red;
   }
