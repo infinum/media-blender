@@ -73,6 +73,21 @@ $media-breakpoints: (
     }
   }
 
+  @include test('combining custom breakpoints with retina query') {
+    @include assert('combines retina with custom breakpoints') {
+      @include output {
+        @include media(small retina) {
+          color: violet;
+        }
+      }
+      @include expect {
+        @media (max-width: 200px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 200px) and (min-resolution: 192dpi) {
+          color: violet;
+        }
+      }
+    }
+  }
+
   @include test('up syntax works') {
     @include assert('up syntax expands the last keyword') {
       @include output {

@@ -103,6 +103,46 @@ Compiled:
 }
 ```
 
+#### Retina support
+
+The mixin also supports retina screens via the `retina` query. It can be used alone,
+or in combination with other breakpoints.
+
+```scss
+@include media(retina) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```css
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .element {
+    color: red;
+  }
+}
+```
+
+```scss
+@include media(mobile tablet retina) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```css
+@media (max-width: 1023px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 1023px) and (min-resolution: 192dpi) {
+  .element {
+    .color: red;
+  }
+}
+```
 #### Desktop-first and mobile-first support
 
 We make writing mobile-first or desktop-first oriented media queries easier than ever
@@ -113,6 +153,24 @@ that defined for the tablet upper breakpoint. This also works for your custom br
 if you define them. It relies on the breakpoints, not their order of definition in the map.
 
 ```scss
+@include media (tablet down) {
+  .element {
+    color: red;
+  }
+}
+```
+
+Compiled:
+
+```css
+@media (max-width: 1023px) {
+  .element {
+    color: red;
+  }
+}
+```
+
+```scss
 @include media (tablet up) {
   .element {
     color: red;
@@ -121,8 +179,9 @@ if you define them. It relies on the breakpoints, not their order of definition 
 ```
 
 Compiled:
+
 ```css
-@media (max-width: 1023px) {
+@media (min-width: 768px) {
   .element {
     color: red;
   }
