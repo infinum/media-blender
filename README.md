@@ -188,6 +188,30 @@ Compiled:
 }
 ```
 
+#### Orientation
+
+Other than the breakpoints, you can also specify orientation, as an optional second
+argument to the mixin. For example, you can specify all mobile devices and tablets in
+landscape mode as so:
+
+```scss
+@include media(mobile tablet, landscape) {
+  .element {
+    visibility: hidden;
+  }
+}
+```
+
+Compiled:
+
+```css
+@media (max-width: 1023px) and (orientation: landscape) {
+  .element {
+    visibility: hidden;
+  }
+}
+```
+
 ## Testing
 
 The mixin and its functions are unit tested using [True](https://github.com/oddbird/true).

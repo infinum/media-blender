@@ -215,6 +215,36 @@
     }
   }
 
+  @include test('works with orientation as a second argument') {
+    @include assert('adds orientation if present') {
+      @include output {
+        @include media(mobile, landscape) {
+          visibility: hidden;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) and (orientation: landscape) {
+          visibility: hidden;
+        }
+      }
+    }
+
+    @include assert('adds only the orientation if the query would be "all"') {
+      @include output {
+        @include media(mobile tablet desktop large, landscape) {
+          visibility: hidden;
+        }
+      }
+
+      @include expect {
+        @media (orientation: landscape) {
+          visibility: hidden;
+        }
+      }
+    }
+  }
+
   @include test('up syntax') {
     @include assert('expands the query') {
       @include output {
@@ -270,6 +300,36 @@
       @include expect {
         @media (max-width: 1023px), (min-width: 1280px) {
           transform: translateX(2px);
+        }
+      }
+    }
+
+    @include assert('adds orientation multiple times for disjunct breakpoints') {
+      @include output {
+        @include media(mobile desktop, landscape) {
+          display: inline-block;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) and (orientation: landscape), (min-width: 1024px) and (max-width: 1279px) and (orientation: landscape) {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  @include test('everything works in tandem') {
+    @include assert('everything works in tandem') {
+      @include output {
+        @include media(mobile desktop up retina, landscape) {
+          transition: all 300ms linear;
+        }
+      }
+
+      @include expect {
+        @media (max-width: 767px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2), (max-width: 767px) and (orientation: landscape) and (min-resolution: 192dpi), (min-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2), (min-width: 1024px) and (orientation: landscape) and (min-resolution: 192dpi) {
+          transition: all 300ms linear;
         }
       }
     }

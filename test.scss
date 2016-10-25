@@ -51,6 +51,18 @@ $media-breakpoints: (
 
 @include media(medium up) {
   body {
+    color: transparent;
+  }
+}
+
+@include media(large, portrait) {
+  body {
+    color: red;
+  }
+}
+
+@include media(tablet large, landscape) {
+  body {
     color: teal;
   }
 }
