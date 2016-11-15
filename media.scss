@@ -14,7 +14,8 @@ $media-breakpoints: (
   @return $list;
 }
 
-// Bubble sort, efficiency questionable. Sorts queries by their breakpoint values, ascendingly
+// Bubble sort, efficiency questionable. Sorts queries by their
+// breakpoint values, ascendingly
 @function __media-mixin-sort-queries($queries) {
   $len: length($queries);
 
@@ -63,11 +64,15 @@ $media-breakpoints: (
       @if $max-point and $key != $breakpoint and nth($value, 1) >= $max-point {
         $list: append($list, $key);
       }
-    } @else if $direction == down {
+    }
+
+    @else if $direction == down {
       @if $min-point and $key != $breakpoint and length($value) >= 2 and nth($value, 2) <= $min-point {
         $list: append($list, $key);
       }
-    } @else {
+    }
+
+    @else {
       @error 'Invalid expansion direction #{$direction}';
     }
   }
@@ -82,13 +87,18 @@ $media-breakpoints: (
   @each $breakpoint in $query {
     @if $breakpoint == up or $breakpoint == down {
       @if $latest {
-        // Merged with existing list, allowing for queries such as "small large up"
+        // Merged with existing list, allowing for queries
+        // such as "small large up"
         $expanded-query: join($expanded-query, __media-mixin-expand-in-direction($latest, $breakpoint));
         $latest: null;
-      } @else {
+      }
+
+      @else {
         @error 'Cannot use up and down without a preceding breakpoint';
       }
-    } @else {
+    }
+
+    @else {
       $expanded-query: append($expanded-query, $breakpoint);
       $latest: $breakpoint;
     }
@@ -155,7 +165,9 @@ $media-breakpoints: (
 
         @if length($val) == 1 {
           $list: join($list, $val);
-        } @else {
+        }
+
+        @else {
           $last-max: nth($val, 2) + 1;
           $list: join($list, (nth($val, 1), $last-max));
         }
@@ -264,7 +276,8 @@ $media-breakpoints: (
   // resolve up/down syntax for mobile-first and desktop-first
   $queries: __media-mixin-expand($queries);
 
-  //sort the queries for correct or-list (comma-separated) generation, and remove duplicates
+  //sort the queries for correct or-list (comma-separated) generation,
+  // and remove duplicates
   $queries: __media-mixin-sort-queries($queries);
   $queries: __media-mixin-remove-duplicate-queries($queries);
   $query-lists: __media-mixin-join-queries($queries);
@@ -289,10 +302,14 @@ $media-breakpoints: (
     @if $query == '' {
       @if $orientation != null {
         $query: '(orientation: #{$orientation})';
-      } @else {
+      }
+
+      @else {
         $query: all;
       }
-    } @else if $orientation != null {
+    }
+
+    @else if $orientation != null {
       $query: '#{$query} and (orientation: #{$orientation})';
     }
 
@@ -303,7 +320,6 @@ $media-breakpoints: (
   @if $retina-index {
     $breakpoint-lists: __add-retina($breakpoint-lists);
   }
-
 
   $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
 
