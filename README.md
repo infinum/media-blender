@@ -17,7 +17,18 @@ $media-breakpoints: (
 );
 ```
 
-The above values are default values and if you're ok with them, you don't need to redefine them.
+The above values are overriding the default values. The default values are:
+
+```scss
+$media-breakpoints: (
+  small: 0 575,
+  mobile: 576 767,
+  tablet: 768 1023,
+  desktop: 1024 1279,
+  large: 1280
+) !default;
+```
+
 
 ## Usage
 
