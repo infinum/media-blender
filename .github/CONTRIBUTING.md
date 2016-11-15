@@ -10,8 +10,8 @@ don't hessitate to open the issue!
 
 ## Issues
 
-Most of the time, if webpack is not working correctly for you it is a simple
-configuration issue. Check the `example/` folder for a simple setup.
+Most of the time, if the library is not working correctly for you it is a simple
+configuration issue.
 
 ## Setup
 
@@ -45,9 +45,9 @@ your pull request should be accepted quickly.
 Some things that will increase the chance that your pull request is accepted:
 
 * Write tests
-* Follow the existing Webpack coding style defined in the eslint jsbeutify and editor config rules.
+* Follow the existing coding style defined in the stylelint and editor config rules.
 * Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
-* Write doucmentation for your feature
+* Write documentation for your feature
 
 Failing to finish all the tasks will result in the PR being
 rejected and you will be asked to complete it. If you don't
