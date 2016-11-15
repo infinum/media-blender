@@ -1,13 +1,10 @@
-// stylelint-disable no-unsupported-browser-features
-// For some reason, stylelint is showing
-// unsupported browser IE 10 for "rem" feature that's not used here
-
 $media-breakpoints: (
-  mobile: 0 767,
+  small: 0 575,
+  mobile: 576 767,
   tablet: 768 1023,
   desktop: 1024 1279,
   large: 1280
-);
+) !default;
 
 @function __swap-elements($list, $i, $j) {
   $tmp: nth($list, $i);
