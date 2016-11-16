@@ -233,8 +233,16 @@ file. The tests are run using [Mocha](https://mochajs.org/).
 
 ### Running the tests
 
-```
+To run the tests, run this command:
+
+```bash
 npm run test
+```
+
+Additionally, tests and linters can be run continuously through the watch mode, via:
+
+```bash
+npm run watch
 ```
 
 ## License
