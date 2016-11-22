@@ -1,7 +1,7 @@
 {
   "name": "media-blender",
   "version": "1.0.0",
-  "description": "",
+  "description": "Easy and predictable media queries",
   "main": "media.scss",
   "scripts": {
     "build": "sass --sourcemap=none test.scss test.css",
