@@ -1,5 +1,5 @@
 {
-  "name": "media-mixin",
+  "name": "media-blender",
   "version": "1.0.0",
   "description": "",
   "main": "media.scss",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/infinum/media-mixin.git"
+    "url": "git+https://github.com/infinum/media-blender.git"
   },
   "keywords": [
     "scss",
@@ -27,14 +27,20 @@
     "media",
     "mobile",
     "desktop",
-    "tablet"
+    "tablet",
+    "blender",
+    "retina",
+    "orientation",
+    "landscape",
+    "portrait",
+    "css"
   ],
   "author": "Infinum <javascript.team@infinum.co>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/infinum/media-mixin/issues"
+    "url": "https://github.com/infinum/media-blender/issues"
   },
-  "homepage": "https://github.com/infinum/media-mixin#readme",
+  "homepage": "https://github.com/infinum/media-blender#readme",
   "devDependencies": {
     "husky": "^0.11.9",
     "mocha": "^3.1.2",

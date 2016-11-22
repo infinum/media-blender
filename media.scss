@@ -6,7 +6,7 @@ $media-breakpoints: (
   large: 1280
 ) !default;
 
-@function __swap-elements($list, $i, $j) {
+@function __media-blender-swap-elements($list, $i, $j) {
   $tmp: nth($list, $i);
   $list: set-nth($list, $i, nth($list, $j));
   $list: set-nth($list, $j, $tmp);
@@ -16,7 +16,7 @@ $media-breakpoints: (
 
 // Bubble sort, efficiency questionable. Sorts queries by their
 // breakpoint values, ascendingly
-@function __media-mixin-sort-queries($queries) {
+@function __media-blender-sort-queries($queries) {
   $len: length($queries);
 
   @for $i from 1 through $len {
@@ -27,7 +27,7 @@ $media-breakpoints: (
 
         // If the right breakpoint's min is before the left's max
         @if length($left) < 2 or nth($right, 1) < nth($left, 2) {
-          $queries: __swap-elements($queries, $i, $j);
+          $queries: __media-blender-swap-elements($queries, $i, $j);
         }
       }
     }
@@ -37,7 +37,7 @@ $media-breakpoints: (
 }
 
 // Assumes sorted
-@function __media-mixin-remove-duplicate-queries($queries) {
+@function __media-blender-remove-duplicate-queries($queries) {
   $uniques: ();
   $last: null;
 
@@ -52,7 +52,7 @@ $media-breakpoints: (
   @return $uniques;
 }
 
-@function __media-mixin-expand-in-direction($breakpoint, $direction) {
+@function __media-blender-expand-in-direction($breakpoint, $direction) {
   $list: ();
 
   $breakpoints-list: map-get($media-breakpoints, $breakpoint);
@@ -80,7 +80,7 @@ $media-breakpoints: (
   @return $list;
 }
 
-@function __media-mixin-expand($query) {
+@function __media-blender-expand($query) {
   $latest: null;
   $expanded-query: ();
 
@@ -89,7 +89,7 @@ $media-breakpoints: (
       @if $latest {
         // Merged with existing list, allowing for queries
         // such as "small large up"
-        $expanded-query: join($expanded-query, __media-mixin-expand-in-direction($latest, $breakpoint));
+        $expanded-query: join($expanded-query, __media-blender-expand-in-direction($latest, $breakpoint));
         $latest: null;
       }
 
@@ -107,7 +107,7 @@ $media-breakpoints: (
   @return $expanded-query;
 }
 
-@function __media-mixin-remove-element($list, $value) {
+@function __media-blender-remove-element($list, $value) {
   $result: ();
 
   @for $i from 1 through length($list) {
@@ -119,7 +119,7 @@ $media-breakpoints: (
   @return $result;
 }
 
-@function __media-mixin-remove-duplicates($list) {
+@function __media-blender-remove-duplicates($list) {
   $result: ();
   $i: 0;
 
@@ -146,7 +146,7 @@ $media-breakpoints: (
   @return $result;
 }
 
-@function __media-mixin-join-queries($queries) {
+@function __media-blender-join-queries($queries) {
   //start list with 0, so it can be removed with
   //duplicates/or used to determine min or max start
   $groups: ();
@@ -158,7 +158,7 @@ $media-breakpoints: (
     @each $key, $val in $media-breakpoints {
       @if $q == $key {
         @if nth($val, 1) != $last-max and $last-max != 0 {
-          $groups: append($groups, __media-mixin-remove-duplicates($list));
+          $groups: append($groups, __media-blender-remove-duplicates($list));
           $list: (0);
           $last-max: 0;
         }
@@ -176,13 +176,13 @@ $media-breakpoints: (
   }
 
   @if length($list) > 1 {
-    $groups: append($groups, __media-mixin-remove-duplicates($list));
+    $groups: append($groups, __media-blender-remove-duplicates($list));
   }
 
   @return $groups;
 }
 
-@function __media-mixin-join-list($list, $separator) {
+@function __media-blender-join-list($list, $separator) {
   $result: '';
 
   // Join with separator
@@ -199,7 +199,7 @@ $media-breakpoints: (
   @return $result;
 }
 
-@function __media-mixin-get-query($list, $flag: false) {
+@function __media-blender-get-query($list, $flag: false) {
   //list of non-adjacent query groups
   $lists: ();
 
@@ -222,10 +222,10 @@ $media-breakpoints: (
     }
   }
 
-  @return __media-mixin-join-list($strings, ' and ');
+  @return __media-blender-join-list($strings, ' and ');
 }
 
-@function __add-retina($queries) {
+@function __media-blender-add-retina($queries) {
   @if (length($queries) == 0) {
     @return (
       unquote('(-webkit-min-device-pixel-ratio: 2)'),
@@ -246,15 +246,7 @@ $media-breakpoints: (
   @return $retina-queries;
 }
 
-@function __merge-or-replace-all($query, $string) {
-  @if ($query == all) {
-    @return $string;
-  }
-
-  @return $query + ' and ' + $string;
-}
-
-@function __remove-nth($list, $index) {
+@function __media-blender-remove-nth($list, $index) {
   $result: ();
 
   @for $i from 1 through length($list) {
@@ -270,17 +262,17 @@ $media-breakpoints: (
   $retina-index: index($queries, retina);
 
   @if $retina-index {
-    $queries: __remove-nth($queries, $retina-index);
+    $queries: __media-blender-remove-nth($queries, $retina-index);
   }
 
   // resolve up/down syntax for mobile-first and desktop-first
-  $queries: __media-mixin-expand($queries);
+  $queries: __media-blender-expand($queries);
 
   //sort the queries for correct or-list (comma-separated) generation,
   // and remove duplicates
-  $queries: __media-mixin-sort-queries($queries);
-  $queries: __media-mixin-remove-duplicate-queries($queries);
-  $query-lists: __media-mixin-join-queries($queries);
+  $queries: __media-blender-sort-queries($queries);
+  $queries: __media-blender-remove-duplicate-queries($queries);
+  $query-lists: __media-blender-join-queries($queries);
 
   $breakpoint-lists: ();
 
@@ -291,11 +283,11 @@ $media-breakpoints: (
     //also remove the 0, makes no sense to use it in media queries
     @if index($query, 0) {
       $skip-first-max: true;
-      $query: __media-mixin-remove-element($query, 0);
+      $query: __media-blender-remove-element($query, 0);
     }
 
     //get the query string from breakpoint-list
-    $query: __media-mixin-get-query($query, $skip-first-max);
+    $query: __media-blender-get-query($query, $skip-first-max);
 
     //if the query is empty it means all items in list
     //were duplicates, meaning all were selected
@@ -318,10 +310,10 @@ $media-breakpoints: (
 
   //If retina was found in the query list
   @if $retina-index {
-    $breakpoint-lists: __add-retina($breakpoint-lists);
+    $breakpoint-lists: __media-blender-add-retina($breakpoint-lists);
   }
 
-  $breakpoint-lists: __media-mixin-join-list($breakpoint-lists, ', ');
+  $breakpoint-lists: __media-blender-join-list($breakpoint-lists, ', ');
 
   //actual media query - @content is were user content goes
   @media #{$breakpoint-lists} {

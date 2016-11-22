@@ -1,7 +1,7 @@
 @import 'true';
 @import '../media';
 
-@include test-module('media-mixin') {
+@include test-module('media-blender') {
 
   @include test('outputs correctly for small') {
     @include assert('outputs the correct breakpoints for small') {
@@ -159,6 +159,52 @@
         }
 
         @include media(mobile desktop large) {
+          opacity: 0.6;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 576px) and (max-width: 1023px), (min-width: 1280px) {
+          opacity: 0.5;
+        }
+
+        @media (min-width: 576px) and (max-width: 767px), (min-width: 1024px) {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  @include test('works with wrong breakpoint order') {
+    @include assert('makes a comma-separated list of disjunct breakpoints') {
+      @include output {
+        @include media(desktop mobile) {
+          text-decoration: underline;
+        }
+
+        @include media(large tablet) {
+          text-decoration: none;
+        }
+      }
+
+      @include expect {
+        @media (min-width: 576px) and (max-width: 767px), (min-width: 1024px) and (max-width: 1279px) {
+          text-decoration: underline;
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px), (min-width: 1280px) {
+          text-decoration: none;
+        }
+      }
+    }
+
+    @include assert('makes a comma-separated list for disjunct groups of breakpoints') {
+      @include output {
+        @include media(tablet mobile large) {
+          opacity: 0.5;
+        }
+
+        @include media(mobile large desktop) {
           opacity: 0.6;
         }
       }

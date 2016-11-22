@@ -16,8 +16,8 @@ configuration issue.
 ## Setup
 
 ```bash
-git clone https://github.com/infinum/media-mixin
-cd media-mixin
+git clone https://github.com/infinum/media-blender
+cd media-blender
 npm install
 ```
 
