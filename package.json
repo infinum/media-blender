@@ -27,7 +27,13 @@
     "media",
     "mobile",
     "desktop",
-    "tablet"
+    "tablet",
+    "blender",
+    "retina",
+    "orientation",
+    "landscape",
+    "portrait",
+    "css"
   ],
   "author": "Infinum <javascript.team@infinum.co>",
   "license": "MIT",

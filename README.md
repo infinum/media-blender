@@ -2,6 +2,12 @@
 
 Easy and predictable media queries
 
+## Installation
+
+```bash
+npm install --save media-blender
+```
+
 ## Configuration (breakpoint definition)
 
 The breakpoints are defined with a SCSS map. The smallest breakpoint should start with 0, and the largest should only have one value if the other is infinity:
