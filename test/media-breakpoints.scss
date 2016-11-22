@@ -1,7 +1,7 @@
 @import 'true';
 @import '../media';
 
-@include test-module('media-mixin') {
+@include test-module('media-blender') {
 
   @include test('outputs correctly for small') {
     @include assert('outputs the correct breakpoints for small') {

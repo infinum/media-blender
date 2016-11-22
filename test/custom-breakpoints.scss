@@ -7,7 +7,7 @@ $media-breakpoints: (
   huge: 501
 );
 
-@include test-module('media-mixin') {
+@include test-module('media-blender') {
 
   @include test('custom breakpoints') {
     @include assert('produces correct output for custom breakpoint') {

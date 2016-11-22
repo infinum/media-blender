@@ -1,4 +1,4 @@
-# media-mixin
+# media-blender
 
 Easy and predictable media queries
 
@@ -7,7 +7,7 @@ Easy and predictable media queries
 The breakpoints are defined with a SCSS map. The smallest breakpoint should start with 0, and the largest should only have one value if the other is infinity:
 
 ```scss
-@import 'media-mixin';
+@import 'media-blender';
 
 $media-breakpoints: (
   mobile: 0 767,
