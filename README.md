@@ -2,6 +2,12 @@
 
 Easy and predictable media queries
 
+[![Build Status](https://travis-ci.org/infinum/media-blender.svg?branch=master)](https://travis-ci.org/infinum/media-blender)
+[![NPM version](https://badge.fury.io/js/media-blender.svg)](http://badge.fury.io/js/media-blender)
+[![Dependency Status](https://david-dm.org/infinum/media-blender.svg)](https://david-dm.org/infinum/media-blender)
+[![devDependency Status](https://david-dm.org/infinum/media-blender/dev-status.svg)](https://david-dm.org/infinum/media-blender#info=devDependencies)
+
+
 ## Installation
 
 ```bash
