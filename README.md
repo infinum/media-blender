@@ -131,6 +131,8 @@ Compiled:
 The mixin also supports retina screens via the `retina` query. It can be used alone,
 or in combination with other breakpoints.
 
+##### Using only retina
+
 ```scss
 @include media(retina) {
   .element {
@@ -148,6 +150,8 @@ Compiled:
   }
 }
 ```
+
+###### Combining retina with breakpoints
 
 ```scss
 @include media(mobile tablet retina) {
@@ -175,6 +179,7 @@ goes for `tablet down`. This will include all devices with a screen size no larg
 that defined for the tablet upper breakpoint. This also works for your custom breakpoints,
 if you define them. It relies on the breakpoints, not their order of definition in the map.
 
+##### Using `down` syntax
 ```scss
 @include media (tablet down) {
   .element {
@@ -192,6 +197,8 @@ Compiled:
   }
 }
 ```
+
+##### Using `up` syntax
 
 ```scss
 @include media (tablet up) {
