@@ -48,11 +48,11 @@ The media mixin is receiving one or more parameters - the breakpoints we want to
 
 ### Examples
 
-#### Mobile only
+#### Small mobile screens only
 
 Source:
 ```scss
-@include media(mobile) {
+@include media(small) {
   .element {
     color: red;
   }
@@ -61,7 +61,7 @@ Source:
 
 Compiled:
 ```css
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .element {
     color: red;
   }
@@ -107,7 +107,7 @@ Compiled:
 }
 ```
 
-#### Mobile and large
+#### Tablet and large
 
 ```scss
 @include media(tablet large) {
@@ -150,7 +150,7 @@ Compiled:
 ```
 
 ```scss
-@include media(mobile tablet retina) {
+@include media(small mobile tablet retina) {
   .element {
     color: red;
   }
@@ -218,7 +218,7 @@ argument to the mixin. For example, you can specify all mobile devices and table
 landscape mode as so:
 
 ```scss
-@include media(mobile tablet, landscape) {
+@include media(small mobile tablet, landscape) {
   .element {
     visibility: hidden;
   }
