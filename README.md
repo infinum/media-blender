@@ -23,9 +23,9 @@ The breakpoints are defined with a SCSS map. The smallest breakpoint should star
 
 $media-breakpoints: (
   mobile: 0 767,
-  tablet: 768 1023,
-  desktop: 1024 1279,
-  large: 1280
+  tablet: 768 991,
+  desktop: 992 1199,
+  large: 1200
 );
 ```
 
@@ -33,11 +33,11 @@ The above values are overriding the default values. The default values are:
 
 ```scss
 $media-breakpoints: (
-  small: 0 575,
-  mobile: 576 767,
-  tablet: 768 1023,
-  desktop: 1024 1279,
-  large: 1280
+  small: 0 543,
+  mobile: 544 767,
+  tablet: 768 991,
+  desktop: 992 1199,
+  large: 1200
 ) !default;
 ```
 
@@ -61,7 +61,7 @@ Source:
 
 Compiled:
 ```css
-@media (max-width: 575px) {
+@media (max-width: 543px) {
   .element {
     color: red;
   }
@@ -81,7 +81,7 @@ Source:
 
 Compiled:
 ```css
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 991px) {
   .element {
     color: red;
   }
@@ -100,7 +100,7 @@ Compiled:
 
 Compiled:
 ```css
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
   .element {
     color: red;
   }
@@ -119,7 +119,7 @@ Compiled:
 
 Compiled:
 ```css
-@media (min-width: 768px) and (max-width: 1023px), (min-width: 1280px) {
+@media (min-width: 768px) and (max-width: 991px), (min-width: 1200px) {
   .element {
     color: red;
   }
@@ -164,7 +164,7 @@ Compiled:
 Compiled:
 
 ```css
-@media (max-width: 1023px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 1023px) and (min-resolution: 192dpi) {
+@media (max-width: 991px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 991px) and (min-resolution: 192dpi) {
   .element {
     .color: red;
   }
@@ -191,7 +191,7 @@ if you define them. It relies on the breakpoints, not their order of definition 
 Compiled:
 
 ```css
-@media (max-width: 1023px) {
+@media (max-width: 991px) {
   .element {
     color: red;
   }
@@ -235,7 +235,7 @@ landscape mode as so:
 Compiled:
 
 ```css
-@media (max-width: 1023px) and (orientation: landscape) {
+@media (max-width: 991px) and (orientation: landscape) {
   .element {
     visibility: hidden;
   }
