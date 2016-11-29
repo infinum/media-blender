@@ -264,6 +264,12 @@ Additionally, tests and linters can be run continuously through the watch mode, 
 npm run watch
 ```
 
+## Changelog
+
+### 2.0.0
+
+* Updated default breakpoints (Bootstrap 4 values)
+
 ## License
 
 [MIT](LICENSE)
