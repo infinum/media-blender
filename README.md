@@ -22,7 +22,8 @@ The breakpoints are defined with a SCSS map. The smallest breakpoint should star
 @import 'media-blender';
 
 $media-breakpoints: (
-  mobile: 0 767,
+  small: 0 320,
+  mobile: 321 767,
   tablet: 768 991,
   desktop: 992 1199,
   large: 1200
