@@ -273,13 +273,13 @@ $media-breakpoints: (
 }
 
 @mixin media($queries, $orientation: null) {
+  $is-error-free: __media-blender-validate-breakpoints($queries);
   $retina-index: index($queries, retina);
 
   @if $retina-index {
     $queries: __media-blender-remove-nth($queries, $retina-index);
   }
 
-  $errors: __media-blender-validate-breakpoints($queries);
   // resolve up/down syntax for mobile-first and desktop-first
   $queries: __media-blender-expand($queries);
 
