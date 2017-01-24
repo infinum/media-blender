@@ -61,7 +61,7 @@ $media-breakpoints: (
   }
 }
 
-@include media(tablet large, landscape) {
+@include media(medium large, landscape) {
   body {
     color: teal;
   }
