@@ -6,6 +6,20 @@ $media-breakpoints: (
   large: 1200
 ) !default;
 
+@function __media-blender-validate-breakpoints($queries) {
+  $breakpoints: map-keys($media-breakpoints);
+  $keywords: up down retina;
+  $valid-words: join($breakpoints, $keywords);
+
+  @each $query in $queries {
+    @if (null == index($valid-words, $query)) {
+      @error 'Invalid query "#{$query}". Please check your breakpoints definition. Allowed values: #{$valid-words}';
+    }
+  }
+
+  @return true;
+}
+
 @function __media-blender-swap-elements($list, $i, $j) {
   $tmp: nth($list, $i);
   $list: set-nth($list, $i, nth($list, $j));
@@ -259,6 +273,7 @@ $media-breakpoints: (
 }
 
 @mixin media($queries, $orientation: null) {
+  $is-error-free: __media-blender-validate-breakpoints($queries);
   $retina-index: index($queries, retina);
 
   @if $retina-index {
