@@ -1,10 +1,10 @@
-@import 'true';
-@import '../media';
-
-$media-breakpoints: (
-  small: 0 200,
-  large: 201 500,
-  huge: 501
+@use 'pkg:sass-true'as *;
+@use '../media' with (
+  $media-breakpoints: (
+    small: 0 200,
+    large: 201 500,
+    huge: 501
+  )
 );
 
 @include test-module('media-blender') {
@@ -12,15 +12,15 @@ $media-breakpoints: (
   @include test('custom breakpoints') {
     @include assert('produces correct output for custom breakpoint') {
       @include output {
-        @include media(small) {
+        @include media.media(small) {
           color: red;
         }
 
-        @include media(large) {
+        @include media.media(large) {
           color: white;
         }
 
-        @include media(huge) {
+        @include media.media(huge) {
           color: blue;
         }
       }
@@ -44,7 +44,7 @@ $media-breakpoints: (
   @include test('combining custom breakpoints') {
     @include assert('it combines adjacent custom breakpoints') {
       @include output {
-        @include media(small large) {
+        @include media.media(small large) {
           color: purple;
         }
       }
@@ -60,13 +60,15 @@ $media-breakpoints: (
   @include test('disjunct custom breakpoints') {
     @include assert('it combines spacially disjunct custom breakpoints') {
       @include output {
-        @include media(small huge) {
+        @include media.media(small huge) {
           color: orange;
         }
       }
 
       @include expect {
-        @media (max-width: 200px), (min-width: 501px) {
+
+        @media (max-width: 200px),
+        (min-width: 501px) {
           color: orange;
         }
       }
@@ -76,12 +78,15 @@ $media-breakpoints: (
   @include test('combining custom breakpoints with retina query') {
     @include assert('combines retina with custom breakpoints') {
       @include output {
-        @include media(small retina) {
+        @include media.media(small retina) {
           color: violet;
         }
       }
+
       @include expect {
-        @media (max-width: 200px) and (-webkit-min-device-pixel-ratio: 2), (max-width: 200px) and (min-resolution: 192dpi) {
+
+        @media (max-width: 200px) and (-webkit-min-device-pixel-ratio: 2),
+        (max-width: 200px) and (min-resolution: 192dpi) {
           color: violet;
         }
       }
@@ -91,7 +96,7 @@ $media-breakpoints: (
   @include test('up syntax works') {
     @include assert('up syntax expands the last keyword') {
       @include output {
-        @include media(large up) {
+        @include media.media(large up) {
           color: gray;
         }
       }
@@ -107,7 +112,7 @@ $media-breakpoints: (
   @include test('down syntax works') {
     @include assert('down syntax expands the last keyword') {
       @include output {
-        @include media(large down) {
+        @include media.media(large down) {
           color: maroon;
         }
       }
@@ -123,13 +128,15 @@ $media-breakpoints: (
   @include test('orientation as a second argument') {
     @include assert('it works with orientation as an optional second argument') {
       @include output {
-        @include media(small huge, portrait) {
+        @include media.media(small huge, portrait) {
           color: yellow;
         }
       }
 
       @include expect {
-        @media (max-width: 200px) and (orientation: portrait), (min-width: 501px) and (orientation: portrait) {
+
+        @media (max-width: 200px) and (orientation: portrait),
+        (min-width: 501px) and (orientation: portrait) {
           color: yellow;
         }
       }
@@ -137,7 +144,7 @@ $media-breakpoints: (
 
     @include assert('it works when all the breakpoints are listed') {
       @include output {
-        @include media(small large huge, portrait) {
+        @include media.media(small large huge, portrait) {
           color: brown;
         }
       }

@@ -1,3 +1,7 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+
 $media-breakpoints: (
   small: 0 543,
   mobile: 544 767,
@@ -7,12 +11,12 @@ $media-breakpoints: (
 ) !default;
 
 @function __media-blender-validate-breakpoints($queries) {
-  $breakpoints: map-keys($media-breakpoints);
+  $breakpoints: map.keys($media-breakpoints);
   $keywords: up down retina;
-  $valid-words: join($breakpoints, $keywords);
+  $valid-words: list.join($breakpoints, $keywords);
 
   @each $query in $queries {
-    @if (null == index($valid-words, $query)) {
+    @if (null == list.index($valid-words, $query)) {
       @error 'Invalid query "#{$query}". Please check your breakpoints definition. Allowed values: #{$valid-words}';
     }
   }
@@ -21,26 +25,26 @@ $media-breakpoints: (
 }
 
 @function __media-blender-swap-elements($list, $i, $j) {
-  $tmp: nth($list, $i);
-  $list: set-nth($list, $i, nth($list, $j));
-  $list: set-nth($list, $j, $tmp);
+  $tmp: list.nth($list, $i);
+  $list: list.set-nth($list, $i, list.nth($list, $j));
+  $list: list.set-nth($list, $j, $tmp);
 
   @return $list;
 }
 
 // Bubble sort, efficiency questionable. Sorts queries by their
-// breakpoint values, ascendingly
+// breakpoint values, ascending
 @function __media-blender-sort-queries($queries) {
-  $len: length($queries);
+  $len: list.length($queries);
 
   @for $i from 1 through $len {
     @if $i < $len { // Avoid out-of-bounds errors
       @for $j from $i + 1 through $len {
-        $left: map-get($media-breakpoints, nth($queries, $i));
-        $right: map-get($media-breakpoints, nth($queries, $j));
+        $left: map.get($media-breakpoints, list.nth($queries, $i));
+        $right: map.get($media-breakpoints, list.nth($queries, $j));
 
         // If the right breakpoint's min is before the left's max
-        @if length($left) < 2 or nth($right, 1) < nth($left, 2) {
+        @if list.length($left) < 2 or list.nth($right, 1) < list.nth($left, 2) {
           $queries: __media-blender-swap-elements($queries, $i, $j);
         }
       }
@@ -57,7 +61,7 @@ $media-breakpoints: (
 
   @each $query in $queries {
     @if $last == null or $query != $last {
-      $uniques: append($uniques, $query);
+      $uniques: list.append($uniques, $query);
     }
 
     $last: $query;
@@ -69,20 +73,20 @@ $media-breakpoints: (
 @function __media-blender-expand-in-direction($breakpoint, $direction) {
   $list: ();
 
-  $breakpoints-list: map-get($media-breakpoints, $breakpoint);
-  $min-point: nth($breakpoints-list, 1);
-  $max-point: if(length($breakpoints-list) >= 2, nth($breakpoints-list, 2), null);
+  $breakpoints-list: map.get($media-breakpoints, $breakpoint);
+  $min-point: list.nth($breakpoints-list, 1);
+  $max-point: if(list.length($breakpoints-list) >= 2, list.nth($breakpoints-list, 2), null);
 
   @each $key, $value in $media-breakpoints {
     @if $direction == up {
-      @if $max-point and $key != $breakpoint and nth($value, 1) >= $max-point {
-        $list: append($list, $key);
+      @if $max-point and $key != $breakpoint and list.nth($value, 1) >= $max-point {
+        $list: list.append($list, $key);
       }
     }
 
     @else if $direction == down {
-      @if $min-point and $key != $breakpoint and length($value) >= 2 and nth($value, 2) <= $min-point {
-        $list: append($list, $key);
+      @if $min-point and $key != $breakpoint and list.length($value) >= 2 and list.nth($value, 2) <= $min-point {
+        $list: list.append($list, $key);
       }
     }
 
@@ -103,7 +107,7 @@ $media-breakpoints: (
       @if $latest {
         // Merged with existing list, allowing for queries
         // such as "small large up"
-        $expanded-query: join($expanded-query, __media-blender-expand-in-direction($latest, $breakpoint));
+        $expanded-query: list.join($expanded-query, __media-blender-expand-in-direction($latest, $breakpoint));
         $latest: null;
       }
 
@@ -113,7 +117,7 @@ $media-breakpoints: (
     }
 
     @else {
-      $expanded-query: append($expanded-query, $breakpoint);
+      $expanded-query: list.append($expanded-query, $breakpoint);
       $latest: $breakpoint;
     }
   }
@@ -124,9 +128,9 @@ $media-breakpoints: (
 @function __media-blender-remove-element($list, $value) {
   $result: ();
 
-  @for $i from 1 through length($list) {
-    @if nth($list, $i) != $value {
-      $result: append($result, nth($list, $i));
+  @for $i from 1 through list.length($list) {
+    @if list.nth($list, $i) != $value {
+      $result: list.append($result, list.nth($list, $i));
     }
   }
 
@@ -153,7 +157,7 @@ $media-breakpoints: (
     }
 
     @if $should-add == true {
-      $result: append($result, $item-first);
+      $result: list.append($result, $item-first);
     }
   }
 
@@ -171,26 +175,26 @@ $media-breakpoints: (
   @each $q in $queries {
     @each $key, $val in $media-breakpoints {
       @if $q == $key {
-        @if nth($val, 1) != $last-max and $last-max != 0 {
-          $groups: append($groups, __media-blender-remove-duplicates($list));
+        @if list.nth($val, 1) != $last-max and $last-max != 0 {
+          $groups: list.append($groups, __media-blender-remove-duplicates($list));
           $list: (0);
           $last-max: 0;
         }
 
-        @if length($val) == 1 {
-          $list: join($list, $val);
+        @if list.length($val) == 1 {
+          $list: list.join($list, $val);
         }
 
         @else {
-          $last-max: nth($val, 2) + 1;
-          $list: join($list, (nth($val, 1), $last-max));
+          $last-max: list.nth($val, 2) + 1;
+          $list: list.join($list, (list.nth($val, 1), $last-max));
         }
       }
     }
   }
 
-  @if length($list) > 1 {
-    $groups: append($groups, __media-blender-remove-duplicates($list));
+  @if list.length($list) > 1 {
+    $groups: list.append($groups, __media-blender-remove-duplicates($list));
   }
 
   @return $groups;
@@ -205,10 +209,10 @@ $media-breakpoints: (
   }
 
   // Remove final instance of separator
-  $result: str-slice($result, 0, str-length($result) - str-length($separator));
+  $result: string.slice($result, 0, string.length($result) - string.length($separator));
 
-  //unqoute for usage withing query block - check out sass strings as for why
-  $result: unquote($result);
+  //unquote for usage withing query block - check out sass strings as for why
+  $result: string.unquote($result);
 
   @return $result;
 }
@@ -225,13 +229,13 @@ $media-breakpoints: (
   //for each item in list, go back and forth between min width and max width
   @each $item in $list {
     @if $flag == true {
-      $strings: append($strings, '(min-width: #{$item}px)');
+      $strings: list.append($strings, '(min-width: #{$item}px)');
       $flag: false;
     }
 
     @else {
       $val: $item - 1;
-      $strings: append($strings, '(max-width: #{$val}px)');
+      $strings: list.append($strings, '(max-width: #{$val}px)');
       $flag: true;
     }
   }
@@ -240,21 +244,21 @@ $media-breakpoints: (
 }
 
 @function __media-blender-add-retina($queries) {
-  @if (length($queries) == 0) {
+  @if (list.length($queries) == 0) {
     @return (
-      unquote('(-webkit-min-device-pixel-ratio: 2)'),
-      unquote('(min-resolution: 192dpi)')
+      string.unquote('(-webkit-min-device-pixel-ratio: 2)'),
+      string.unquote('(min-resolution: 192dpi)')
     );
   }
 
   $retina-queries: ();
 
   @each $query in $queries {
-    $webkit-query: unquote($query + ' and (-webkit-min-device-pixel-ratio: 2)');
-    $dpi-query: unquote($query + ' and (min-resolution: 192dpi)');
+    $webkit-query: string.unquote($query + ' and (-webkit-min-device-pixel-ratio: 2)');
+    $dpi-query: string.unquote($query + ' and (min-resolution: 192dpi)');
 
-    $retina-queries: append($retina-queries, $webkit-query);
-    $retina-queries: append($retina-queries, $dpi-query);
+    $retina-queries: list.append($retina-queries, $webkit-query);
+    $retina-queries: list.append($retina-queries, $dpi-query);
   }
 
   @return $retina-queries;
@@ -263,9 +267,9 @@ $media-breakpoints: (
 @function __media-blender-remove-nth($list, $index) {
   $result: ();
 
-  @for $i from 1 through length($list) {
+  @for $i from 1 through list.length($list) {
     @if $i != $index {
-      $result: append($result, nth($list, $i));
+      $result: list.append($result, list.nth($list, $i));
     }
   }
 
@@ -274,7 +278,7 @@ $media-breakpoints: (
 
 @mixin media($queries, $orientation: null) {
   $is-error-free: __media-blender-validate-breakpoints($queries);
-  $retina-index: index($queries, retina);
+  $retina-index: list.index($queries, retina);
 
   @if $retina-index {
     $queries: __media-blender-remove-nth($queries, $retina-index);
@@ -296,7 +300,7 @@ $media-breakpoints: (
 
     //if the 0 survived, it means we must start with max to get correct results
     //also remove the 0, makes no sense to use it in media queries
-    @if index($query, 0) {
+    @if list.index($query, 0) {
       $skip-first-max: true;
       $query: __media-blender-remove-element($query, 0);
     }
@@ -320,7 +324,7 @@ $media-breakpoints: (
       $query: '#{$query} and (orientation: #{$orientation})';
     }
 
-    $breakpoint-lists: append($breakpoint-lists, $query);
+    $breakpoint-lists: list.append($breakpoint-lists, $query);
   }
 
   //If retina was found in the query list
