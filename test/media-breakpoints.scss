@@ -3,397 +3,397 @@
 
 @include test-module('media-blender') {
 
-  @include test('outputs correctly for small') {
-    @include assert('outputs the correct breakpoints for small') {
-      @include output {
-        @include media.media(small) {
-          color: magenta;
-        }
-      }
+	@include test('outputs correctly for small') {
+		@include assert('outputs the correct breakpoints for small') {
+			@include output {
+				@include media.media(small) {
+					color: magenta;
+				}
+			}
 
-      @include expect {
-        @media (max-width: 543px) {
-          color: magenta;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (max-width: 543px) {
+					color: magenta;
+				}
+			}
+		}
+	}
 
-  @include test('outputs correctly for mobile') {
-    @include assert('outputs the correct breakpoints for mobile') {
-      @include output {
-        @include media.media(mobile) {
-          color: red;
-        }
-      }
+	@include test('outputs correctly for mobile') {
+		@include assert('outputs the correct breakpoints for mobile') {
+			@include output {
+				@include media.media(mobile) {
+					color: red;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px) {
-          color: red;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px) {
+					color: red;
+				}
+			}
+		}
+	}
 
-  @include test('outputs correctly for tablet') {
-    @include assert('outputs the correct breakpoints for tablet') {
-      @include output {
-        @include media.media(tablet) {
-          color: blue;
-        }
-      }
+	@include test('outputs correctly for tablet') {
+		@include assert('outputs the correct breakpoints for tablet') {
+			@include output {
+				@include media.media(tablet) {
+					color: blue;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 768px) and (max-width: 991px) {
-          color: blue;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 768px) and (max-width: 991px) {
+					color: blue;
+				}
+			}
+		}
+	}
 
-  @include test('outputs correctly for desktop') {
-    @include assert('outputs the correct breakpoints for desktop') {
-      @include output {
-        @include media.media(desktop) {
-          color: white;
-        }
-      }
+	@include test('outputs correctly for desktop') {
+		@include assert('outputs the correct breakpoints for desktop') {
+			@include output {
+				@include media.media(desktop) {
+					color: white;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 992px) and (max-width: 1199px) {
-          color: white;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 992px) and (max-width: 1199px) {
+					color: white;
+				}
+			}
+		}
+	}
 
-  @include test('outputs correctly for large') {
-    @include assert('outputs the correct breakpoints for large') {
-      @include output {
-        @include media.media(large) {
-          color: black;
-        }
-      }
+	@include test('outputs correctly for large') {
+		@include assert('outputs the correct breakpoints for large') {
+			@include output {
+				@include media.media(large) {
+					color: black;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 1200px) {
-          color: black;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 1200px) {
+					color: black;
+				}
+			}
+		}
+	}
 
-  @include test('combines adjacent queries') {
-    @include assert('outputs the correct breakpoints for (tablet desktop)') {
-      @include output {
-        @include media.media(tablet desktop) {
-          font-size: 12px;
-        }
-      }
+	@include test('combines adjacent queries') {
+		@include assert('outputs the correct breakpoints for (tablet desktop)') {
+			@include output {
+				@include media.media(tablet desktop) {
+					font-size: 12px;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 768px) and (max-width: 1199px) {
-          font-size: 12px;
-        }
-      }
-    }
+			@include expect {
+				@media (min-width: 768px) and (max-width: 1199px) {
+					font-size: 12px;
+				}
+			}
+		}
 
-    @include assert('outputs the correct breakpoints for (tablet desktop large)') {
-      @include output {
-        @include media.media(tablet desktop large) {
-          font-size: 12px;
-        }
-      }
+		@include assert('outputs the correct breakpoints for (tablet desktop large)') {
+			@include output {
+				@include media.media(tablet desktop large) {
+					font-size: 12px;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 768px) {
-          font-size: 12px;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 768px) {
+					font-size: 12px;
+				}
+			}
+		}
+	}
 
-  @include test('removes duplicates') {
-    @include assert('removes duplicate entries where the query introduces them') {
-      @include output {
-        @include media.media(mobile mobile tablet mobile) {
-          border: 1px solid black;
-        }
-      }
+	@include test('removes duplicates') {
+		@include assert('removes duplicate entries where the query introduces them') {
+			@include output {
+				@include media.media(mobile mobile tablet mobile) {
+					border: 1px solid black;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 991px) {
-          border: 1px solid black;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 991px) {
+					border: 1px solid black;
+				}
+			}
+		}
+	}
 
-  @include test('works for disjunct (non-adjacent) breakpoints') {
-    @include assert('makes a comma-separated list of disjunct breakpoints') {
-      @include output {
-        @include media.media(mobile desktop) {
-          text-decoration: underline;
-        }
+	@include test('works for disjunct (non-adjacent) breakpoints') {
+		@include assert('makes a comma-separated list of disjunct breakpoints') {
+			@include output {
+				@include media.media(mobile desktop) {
+					text-decoration: underline;
+				}
 
-        @include media.media(tablet large) {
-          text-decoration: none;
-        }
-      }
+				@include media.media(tablet large) {
+					text-decoration: none;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px), (min-width: 992px) and (max-width: 1199px) {
-          text-decoration: underline;
-        }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px), (min-width: 992px) and (max-width: 1199px) {
+					text-decoration: underline;
+				}
 
-        @media (min-width: 768px) and (max-width: 991px), (min-width: 1200px) {
-          text-decoration: none;
-        }
-      }
-    }
+				@media (min-width: 768px) and (max-width: 991px), (min-width: 1200px) {
+					text-decoration: none;
+				}
+			}
+		}
 
-    @include assert('makes a comma-separated list for disjunct groups of breakpoints') {
-      @include output {
-        @include media.media(mobile tablet large) {
-          opacity: 0.5;
-        }
+		@include assert('makes a comma-separated list for disjunct groups of breakpoints') {
+			@include output {
+				@include media.media(mobile tablet large) {
+					opacity: 0.5;
+				}
 
-        @include media.media(mobile desktop large) {
-          opacity: 0.6;
-        }
-      }
+				@include media.media(mobile desktop large) {
+					opacity: 0.6;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 991px), (min-width: 1200px) {
-          opacity: 0.5;
-        }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 991px), (min-width: 1200px) {
+					opacity: 0.5;
+				}
 
-        @media (min-width: 544px) and (max-width: 767px), (min-width: 992px) {
-          opacity: 0.6;
-        }
-      }
-    }
-  }
+				@media (min-width: 544px) and (max-width: 767px), (min-width: 992px) {
+					opacity: 0.6;
+				}
+			}
+		}
+	}
 
-  @include test('works with wrong breakpoint order') {
-    @include assert('makes a comma-separated list of disjunct breakpoints') {
-      @include output {
-        @include media.media(desktop mobile) {
-          text-decoration: underline;
-        }
+	@include test('works with wrong breakpoint order') {
+		@include assert('makes a comma-separated list of disjunct breakpoints') {
+			@include output {
+				@include media.media(desktop mobile) {
+					text-decoration: underline;
+				}
 
-        @include media.media(large tablet) {
-          text-decoration: none;
-        }
-      }
+				@include media.media(large tablet) {
+					text-decoration: none;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px), (min-width: 992px) and (max-width: 1199px) {
-          text-decoration: underline;
-        }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px), (min-width: 992px) and (max-width: 1199px) {
+					text-decoration: underline;
+				}
 
-        @media (min-width: 768px) and (max-width: 991px), (min-width: 1200px) {
-          text-decoration: none;
-        }
-      }
-    }
+				@media (min-width: 768px) and (max-width: 991px), (min-width: 1200px) {
+					text-decoration: none;
+				}
+			}
+		}
 
-    @include assert('makes a comma-separated list for disjunct groups of breakpoints') {
-      @include output {
-        @include media.media(tablet mobile large) {
-          opacity: 0.5;
-        }
+		@include assert('makes a comma-separated list for disjunct groups of breakpoints') {
+			@include output {
+				@include media.media(tablet mobile large) {
+					opacity: 0.5;
+				}
 
-        @include media.media(mobile large desktop) {
-          opacity: 0.6;
-        }
-      }
+				@include media.media(mobile large desktop) {
+					opacity: 0.6;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 991px), (min-width: 1200px) {
-          opacity: 0.5;
-        }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 991px), (min-width: 1200px) {
+					opacity: 0.5;
+				}
 
-        @media (min-width: 544px) and (max-width: 767px), (min-width: 992px) {
-          opacity: 0.6;
-        }
-      }
-    }
-  }
+				@media (min-width: 544px) and (max-width: 767px), (min-width: 992px) {
+					opacity: 0.6;
+				}
+			}
+		}
+	}
 
-  @include test('retina support') {
-    @include assert('produces retina query') {
-      @include output {
-        @include media.media(retina) {
-          .element {
-            color: red;
-          }
-        }
-      }
+	@include test('retina support') {
+		@include assert('produces retina query') {
+			@include output {
+				@include media.media(retina) {
+					.element {
+						color: red;
+					}
+				}
+			}
 
-      @include expect {
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-          .element {
-            color: red;
-          }
-        }
-      }
-    }
+			@include expect {
+				@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+					.element {
+						color: red;
+					}
+				}
+			}
+		}
 
-    @include assert('combines retina query with breakpoint queries') {
-      @include output {
-        @include media.media(mobile tablet retina) {
-          .element {
-            color: red;
-          }
-        }
-      }
+		@include assert('combines retina query with breakpoint queries') {
+			@include output {
+				@include media.media(mobile tablet retina) {
+					.element {
+						color: red;
+					}
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 991px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 544px) and (max-width: 991px) and (min-resolution: 192dpi) {
-          .element {
-            color: red;
-          }
-        }
-      }
-    }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 991px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 544px) and (max-width: 991px) and (min-resolution: 192dpi) {
+					.element {
+						color: red;
+					}
+				}
+			}
+		}
 
-    @include assert('works with disjunct queries') {
-      @include output {
-        @include media.media(mobile large retina) {
-          .element {
-            color: red;
-          }
-        }
-      }
+		@include assert('works with disjunct queries') {
+			@include output {
+				@include media.media(mobile large retina) {
+					.element {
+						color: red;
+					}
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 544px) and (max-width: 767px) and (min-resolution: 192dpi), (min-width: 1200px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 1200px) and (min-resolution: 192dpi) {
-          .element {
-            color: red;
-          }
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 544px) and (max-width: 767px) and (min-resolution: 192dpi), (min-width: 1200px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 1200px) and (min-resolution: 192dpi) {
+					.element {
+						color: red;
+					}
+				}
+			}
+		}
+	}
 
-  @include test('works with orientation as a second argument') {
-    @include assert('adds orientation if present') {
-      @include output {
-        @include media.media(mobile, landscape) {
-          visibility: hidden;
-        }
-      }
+	@include test('works with orientation as a second argument') {
+		@include assert('adds orientation if present') {
+			@include output {
+				@include media.media(mobile, landscape) {
+					visibility: hidden;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px) and (orientation: landscape) {
-          visibility: hidden;
-        }
-      }
-    }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px) and (orientation: landscape) {
+					visibility: hidden;
+				}
+			}
+		}
 
-    @include assert('adds only the orientation if the query would be "all"') {
-      @include output {
-        @include media.media(small mobile tablet desktop large, landscape) {
-          visibility: hidden;
-        }
-      }
+		@include assert('adds only the orientation if the query would be "all"') {
+			@include output {
+				@include media.media(small mobile tablet desktop large, landscape) {
+					visibility: hidden;
+				}
+			}
 
-      @include expect {
-        @media (orientation: landscape) {
-          visibility: hidden;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (orientation: landscape) {
+					visibility: hidden;
+				}
+			}
+		}
+	}
 
-  @include test('up syntax') {
-    @include assert('expands the query') {
-      @include output {
-        @include media.media(desktop up) {
-          transform: scale(2);
-        }
-      }
+	@include test('up syntax') {
+		@include assert('expands the query') {
+			@include output {
+				@include media.media(desktop up) {
+					transform: scale(2);
+				}
+			}
 
-      @include expect {
-        @media (min-width: 992px) {
-          transform: scale(2);
-        }
-      }
-    }
+			@include expect {
+				@media (min-width: 992px) {
+					transform: scale(2);
+				}
+			}
+		}
 
-    @include assert('works for disjunct queries') {
-      @include output {
-        @include media.media(mobile desktop up) {
-          transform: scale(2);
-        }
-      }
+		@include assert('works for disjunct queries') {
+			@include output {
+				@include media.media(mobile desktop up) {
+					transform: scale(2);
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px), (min-width: 992px) {
-          transform: scale(2);
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px), (min-width: 992px) {
+					transform: scale(2);
+				}
+			}
+		}
+	}
 
-  @include test('down syntax') {
-    @include assert('expands the query') {
-      @include output {
-        @include media.media(tablet down) {
-          transform: translateX(2px);
-        }
-      }
+	@include test('down syntax') {
+		@include assert('expands the query') {
+			@include output {
+				@include media.media(tablet down) {
+					transform: translateX(2px);
+				}
+			}
 
-      @include expect {
-        @media (max-width: 991px) {
-          transform: translateX(2px);
-        }
-      }
-    }
+			@include expect {
+				@media (max-width: 991px) {
+					transform: translateX(2px);
+				}
+			}
+		}
 
-    @include assert('works for disjunct queries') {
-      @include output {
-        @include media.media(tablet down large) {
-          transform: translateX(2px);
-        }
-      }
+		@include assert('works for disjunct queries') {
+			@include output {
+				@include media.media(tablet down large) {
+					transform: translateX(2px);
+				}
+			}
 
-      @include expect {
-        @media (max-width: 991px), (min-width: 1200px) {
-          transform: translateX(2px);
-        }
-      }
-    }
+			@include expect {
+				@media (max-width: 991px), (min-width: 1200px) {
+					transform: translateX(2px);
+				}
+			}
+		}
 
-    @include assert('adds orientation multiple times for disjunct breakpoints') {
-      @include output {
-        @include media.media(mobile desktop, landscape) {
-          display: inline-block;
-        }
-      }
+		@include assert('adds orientation multiple times for disjunct breakpoints') {
+			@include output {
+				@include media.media(mobile desktop, landscape) {
+					display: inline-block;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px) and (orientation: landscape), (min-width: 992px) and (max-width: 1199px) and (orientation: landscape) {
-          display: inline-block;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px) and (orientation: landscape), (min-width: 992px) and (max-width: 1199px) and (orientation: landscape) {
+					display: inline-block;
+				}
+			}
+		}
+	}
 
-  @include test('everything works in tandem') {
-    @include assert('everything works in tandem') {
-      @include output {
-        @include media.media(mobile desktop up retina, landscape) {
-          transition: all 300ms linear;
-        }
-      }
+	@include test('everything works in tandem') {
+		@include assert('everything works in tandem') {
+			@include output {
+				@include media.media(mobile desktop up retina, landscape) {
+					transition: all 300ms linear;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 544px) and (max-width: 767px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2), (min-width: 544px) and (max-width: 767px) and (orientation: landscape) and (min-resolution: 192dpi), (min-width: 992px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2), (min-width: 992px) and (orientation: landscape) and (min-resolution: 192dpi) {
-          transition: all 300ms linear;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 544px) and (max-width: 767px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2), (min-width: 544px) and (max-width: 767px) and (orientation: landscape) and (min-resolution: 192dpi), (min-width: 992px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2), (min-width: 992px) and (orientation: landscape) and (min-resolution: 192dpi) {
+					transition: all 300ms linear;
+				}
+			}
+		}
+	}
 }

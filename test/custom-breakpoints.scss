@@ -1,159 +1,159 @@
 @use 'pkg:sass-true'as *;
 @use '../media' with (
-  $media-breakpoints: (
-    small: 0 200,
-    large: 201 500,
-    huge: 501
-  )
+	$media-breakpoints: (
+		small: 0 200,
+		large: 201 500,
+		huge: 501
+	)
 );
 
 @include test-module('media-blender') {
 
-  @include test('custom breakpoints') {
-    @include assert('produces correct output for custom breakpoint') {
-      @include output {
-        @include media.media(small) {
-          color: red;
-        }
+	@include test('custom breakpoints') {
+		@include assert('produces correct output for custom breakpoint') {
+			@include output {
+				@include media.media(small) {
+					color: red;
+				}
 
-        @include media.media(large) {
-          color: white;
-        }
+				@include media.media(large) {
+					color: white;
+				}
 
-        @include media.media(huge) {
-          color: blue;
-        }
-      }
+				@include media.media(huge) {
+					color: blue;
+				}
+			}
 
-      @include expect {
-        @media (max-width: 200px) {
-          color: red;
-        }
+			@include expect {
+				@media (max-width: 200px) {
+					color: red;
+				}
 
-        @media (min-width: 201px) and (max-width: 500px) {
-          color: white;
-        }
+				@media (min-width: 201px) and (max-width: 500px) {
+					color: white;
+				}
 
-        @media (min-width: 501px) {
-          color: blue;
-        }
-      }
-    }
-  }
+				@media (min-width: 501px) {
+					color: blue;
+				}
+			}
+		}
+	}
 
-  @include test('combining custom breakpoints') {
-    @include assert('it combines adjacent custom breakpoints') {
-      @include output {
-        @include media.media(small large) {
-          color: purple;
-        }
-      }
+	@include test('combining custom breakpoints') {
+		@include assert('it combines adjacent custom breakpoints') {
+			@include output {
+				@include media.media(small large) {
+					color: purple;
+				}
+			}
 
-      @include expect {
-        @media (max-width: 500px) {
-          color: purple;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (max-width: 500px) {
+					color: purple;
+				}
+			}
+		}
+	}
 
-  @include test('disjunct custom breakpoints') {
-    @include assert('it combines spacially disjunct custom breakpoints') {
-      @include output {
-        @include media.media(small huge) {
-          color: orange;
-        }
-      }
+	@include test('disjunct custom breakpoints') {
+		@include assert('it combines spacially disjunct custom breakpoints') {
+			@include output {
+				@include media.media(small huge) {
+					color: orange;
+				}
+			}
 
-      @include expect {
+			@include expect {
 
-        @media (max-width: 200px),
-        (min-width: 501px) {
-          color: orange;
-        }
-      }
-    }
-  }
+				@media (max-width: 200px),
+				(min-width: 501px) {
+					color: orange;
+				}
+			}
+		}
+	}
 
-  @include test('combining custom breakpoints with retina query') {
-    @include assert('combines retina with custom breakpoints') {
-      @include output {
-        @include media.media(small retina) {
-          color: violet;
-        }
-      }
+	@include test('combining custom breakpoints with retina query') {
+		@include assert('combines retina with custom breakpoints') {
+			@include output {
+				@include media.media(small retina) {
+					color: violet;
+				}
+			}
 
-      @include expect {
+			@include expect {
 
-        @media (max-width: 200px) and (-webkit-min-device-pixel-ratio: 2),
-        (max-width: 200px) and (min-resolution: 192dpi) {
-          color: violet;
-        }
-      }
-    }
-  }
+				@media (max-width: 200px) and (-webkit-min-device-pixel-ratio: 2),
+				(max-width: 200px) and (min-resolution: 192dpi) {
+					color: violet;
+				}
+			}
+		}
+	}
 
-  @include test('up syntax works') {
-    @include assert('up syntax expands the last keyword') {
-      @include output {
-        @include media.media(large up) {
-          color: gray;
-        }
-      }
+	@include test('up syntax works') {
+		@include assert('up syntax expands the last keyword') {
+			@include output {
+				@include media.media(large up) {
+					color: gray;
+				}
+			}
 
-      @include expect {
-        @media (min-width: 201px) {
-          color: gray;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (min-width: 201px) {
+					color: gray;
+				}
+			}
+		}
+	}
 
-  @include test('down syntax works') {
-    @include assert('down syntax expands the last keyword') {
-      @include output {
-        @include media.media(large down) {
-          color: maroon;
-        }
-      }
+	@include test('down syntax works') {
+		@include assert('down syntax expands the last keyword') {
+			@include output {
+				@include media.media(large down) {
+					color: maroon;
+				}
+			}
 
-      @include expect {
-        @media (max-width: 500px) {
-          color: maroon;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (max-width: 500px) {
+					color: maroon;
+				}
+			}
+		}
+	}
 
-  @include test('orientation as a second argument') {
-    @include assert('it works with orientation as an optional second argument') {
-      @include output {
-        @include media.media(small huge, portrait) {
-          color: yellow;
-        }
-      }
+	@include test('orientation as a second argument') {
+		@include assert('it works with orientation as an optional second argument') {
+			@include output {
+				@include media.media(small huge, portrait) {
+					color: yellow;
+				}
+			}
 
-      @include expect {
+			@include expect {
 
-        @media (max-width: 200px) and (orientation: portrait),
-        (min-width: 501px) and (orientation: portrait) {
-          color: yellow;
-        }
-      }
-    }
+				@media (max-width: 200px) and (orientation: portrait),
+				(min-width: 501px) and (orientation: portrait) {
+					color: yellow;
+				}
+			}
+		}
 
-    @include assert('it works when all the breakpoints are listed') {
-      @include output {
-        @include media.media(small large huge, portrait) {
-          color: brown;
-        }
-      }
+		@include assert('it works when all the breakpoints are listed') {
+			@include output {
+				@include media.media(small large huge, portrait) {
+					color: brown;
+				}
+			}
 
-      @include expect {
-        @media (orientation: portrait) {
-          color: brown;
-        }
-      }
-    }
-  }
+			@include expect {
+				@media (orientation: portrait) {
+					color: brown;
+				}
+			}
+		}
+	}
 }
