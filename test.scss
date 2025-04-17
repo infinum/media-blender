@@ -1,86 +1,86 @@
 @import 'media';
 
 $media-breakpoints: (
-  small: 0 320,
-  medium: 321 480,
-  large: 481 768,
-  extra-large: 769
+	small: 0 320,
+	medium: 321 480,
+	large: 481 768,
+	extra-large: 769
 );
 
 @include media(small) {
-  body {
-    color: red;
-  }
+	body {
+		color: red;
+	}
 }
 
 @include media(medium large) {
-  body {
-    color: green;
-  }
+	body {
+		color: green;
+	}
 }
 
 @include media(extra-large) {
-  body {
-    color: blue;
-  }
+	body {
+		color: blue;
+	}
 }
 
 @include media(small large extra-large) {
-  body {
-    color: orange;
-  }
+	body {
+		color: orange;
+	}
 }
 
 @include media(retina small medium) {
-  body {
-    color: purple;
-  }
+	body {
+		color: purple;
+	}
 }
 
 @include media(retina) {
-  body {
-    color: pink;
-  }
+	body {
+		color: pink;
+	}
 }
 
 @include media(small up) {
-  body {
-    color: white;
-  }
+	body {
+		color: white;
+	}
 }
 
 @include media(medium up) {
-  body {
-    color: transparent;
-  }
+	body {
+		color: transparent;
+	}
 }
 
 @include media(large, portrait) {
-  body {
-    color: red;
-  }
+	body {
+		color: red;
+	}
 }
 
 @include media(medium large, landscape) {
-  body {
-    color: teal;
-  }
+	body {
+		color: teal;
+	}
 }
 
 @include media (extra-large down) {
-  body {
-    color: cyan;
-  }
+	body {
+		color: cyan;
+	}
 }
 
 @include media (large down) {
-  body {
-    color: lime;
-  }
+	body {
+		color: lime;
+	}
 }
 
 @include media(medium large up) {
-  body {
-    color: fuchsia;
-  }
+	body {
+		color: fuchsia;
+	}
 }
