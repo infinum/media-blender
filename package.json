@@ -6,13 +6,16 @@
   "scripts": {
     "build": "sass --sourcemap=none test.scss test.css",
     "test": "npm run __stylelint && mocha test/test_sass.js --exit",
-    "__stylelint": "stylelint \"*.scss\" --syntax scss",
+    "__stylelint": "stylelint \"*.scss\"",
     "precommit": "npm test",
     "watch": "npm-watch"
   },
   "watch": {
     "test": {
-      "patterns": [".", "test"],
+      "patterns": [
+        ".",
+        "test"
+      ],
       "extensions": "js,scss",
       "ignore": "./test.scss"
     }
@@ -45,9 +48,12 @@
     "husky": "^0.14.3",
     "mocha": "^11.7.1",
     "mocha-cli": "^1.0.1",
-    "sass": "^1.89.2",
     "npm-watch": "^0.13.0",
+    "postcss-scss": "^4.0.9",
+    "sass": "^1.89.2",
     "sass-true": "^8.1.0",
-    "stylelint": "^7.13.0"
+    "stylelint": "^16.22.0",
+    "stylelint-config-standard-scss": "^15.0.1",
+    "stylelint-scss": "^6.12.1"
   }
 }
