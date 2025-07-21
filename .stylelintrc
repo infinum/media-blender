@@ -117,7 +117,7 @@
     ],
     "comment-whitespace-inside": "always",
 
-    "indentation": 2,
+    "indentation": "tab",
     "max-line-length": 120,
     "max-nesting-depth": 3,
     "no-duplicate-selectors": true,

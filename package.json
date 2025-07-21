@@ -5,7 +5,7 @@
   "main": "media.scss",
   "scripts": {
     "build": "sass --sourcemap=none test.scss test.css",
-    "test": "npm run __stylelint && mocha test/test_sass.js",
+    "test": "npm run __stylelint && mocha test/test_sass.js --exit",
     "__stylelint": "stylelint \"*.scss\" --syntax scss",
     "precommit": "npm test",
     "watch": "npm-watch"
@@ -42,12 +42,12 @@
   },
   "homepage": "https://github.com/infinum/media-blender#readme",
   "devDependencies": {
-    "husky": "^0.13.0",
-    "mocha": "^3.1.2",
+    "husky": "^0.14.3",
+    "mocha": "^11.7.1",
     "mocha-cli": "^1.0.1",
-    "sass": "^1.80.6",
-    "npm-watch": "^0.1.6",
+    "sass": "^1.89.2",
+    "npm-watch": "^0.13.0",
     "sass-true": "^8.1.0",
-    "stylelint": "^7.5.0"
+    "stylelint": "^7.13.0"
   }
 }

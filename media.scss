@@ -17,7 +17,7 @@ $media-breakpoints: (
 
 	@each $query in $queries {
 		@if (null == list.index($valid-words, $query)) {
-			@error 'Invalid query "#{$query}". Please check your breakpoints definition. Allowed values: #{$valid-words}';
+			@error 'Invalid query "#{$query}". Please check your breakpoints definition. Allowed: #{$valid-words}';
 		}
 	}
 
