@@ -5,10 +5,12 @@
   "main": "media.scss",
   "scripts": {
     "build": "sass --sourcemap=none test.scss test.css",
+    "postinstall": "npx husky init",
     "test": "npm run __stylelint && mocha test/test_sass.js --exit",
     "__stylelint": "stylelint \"*.scss\"",
     "precommit": "npm test",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "prepare": "husky"
   },
   "watch": {
     "test": {
@@ -45,7 +47,7 @@
   },
   "homepage": "https://github.com/infinum/media-blender#readme",
   "devDependencies": {
-    "husky": "^0.14.3",
+    "husky": "^9.1.7",
     "mocha": "^11.7.1",
     "mocha-cli": "^1.0.1",
     "npm-watch": "^0.13.0",
