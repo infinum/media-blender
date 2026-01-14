@@ -1,6 +1,6 @@
 {
   "name": "media-blender",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Easy and predictable media queries",
   "main": "media.scss",
   "scripts": {
