@@ -74,7 +74,12 @@ $media-breakpoints: (
 	$list: ();
 	$breakpoints-list: map.get($media-breakpoints, $breakpoint);
 	$min-point: list.nth($breakpoints-list, 1);
-	$max-point: if(list.length($breakpoints-list) >= 2, list.nth($breakpoints-list, 2), null);
+
+	$max-point: null;
+
+	@if list.length($breakpoints-list) >= 2 {
+		$max-point: list.nth($breakpoints-list, 2);
+	}
 
 	@each $key, $value in $media-breakpoints {
 		@if $direction == up {
